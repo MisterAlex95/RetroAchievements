@@ -13,7 +13,6 @@ import {
   FormControlLabelText,
   Input,
   InputField,
-  Heading,
   Link,
   LinkText,
 } from "@gluestack-ui/themed";
@@ -22,14 +21,21 @@ import { StyleSheet } from "react-native";
 
 import { useState } from "react";
 
-export default function Login() {
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+type RootStackParamList = {
+  Home: undefined;
+};
+
+type Props = NativeStackScreenProps<RootStackParamList, "Home">;
+
+export default function LoginScreen({ navigation }: Props) {
   const [userName, setUsername] = useState("");
   const [apiKey, setApiKey] = useState("");
 
   return (
     <Box style={styles.container}>
-      <Heading>Login page.</Heading>
-      <Box mt="$10">
+      <Box>
         <Box h="$32" w="$72">
           <FormControl
             size="md"
@@ -78,6 +84,8 @@ export default function Login() {
               </FormControlErrorText>
             </FormControlError>
 
+            <Button onPress={() => navigation.navigate("Home")} />
+
             <Button>
               <ButtonText>Login</ButtonText>
             </Button>
@@ -91,7 +99,6 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    marginLeft: 50,
   },
 });
