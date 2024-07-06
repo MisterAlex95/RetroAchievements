@@ -18,6 +18,8 @@ import {
   LinkText,
 } from "@gluestack-ui/themed";
 
+import { StyleSheet } from "react-native";
+
 import { useState } from "react";
 
 export default function Login() {
@@ -25,7 +27,7 @@ export default function Login() {
   const [apiKey, setApiKey] = useState("");
 
   return (
-    <Box>
+    <Box style={styles.container}>
       <Heading>Login page.</Heading>
       <Box mt="$10">
         <Box h="$32" w="$72">
@@ -85,3 +87,11 @@ export default function Login() {
     </Box>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
