@@ -24,10 +24,11 @@ import { useState } from "react";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 type RootStackParamList = {
+  Login: undefined;
   Home: undefined;
 };
 
-type Props = NativeStackScreenProps<RootStackParamList, "Home">;
+type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 
 export default function LoginScreen({ navigation }: Props) {
   const [userName, setUsername] = useState("");
