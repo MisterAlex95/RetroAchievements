@@ -21,7 +21,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
       }
     };
 
-    autoLogin().catch((err) => console.log(err));
+    autoLogin().catch((err) => console.error(err));
 
     if (isLoggedIn()) {
       navigation.replace("Home");

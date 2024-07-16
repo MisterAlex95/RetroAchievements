@@ -1,3 +1,3 @@
 export const config = {
-  ENABLE_FIXTURE: true,
+  ENABLE_FIXTURE: false,
 };

@@ -37,10 +37,9 @@ export const useGameStore = create<GameStore>()((set, get) => {
       if (authorization) {
         try {
           const answer = await getAchievementOfTheWeek(authorization);
-          console.log(answer);
           if (answer) set({ achievementOfTheWeek: answer });
         } catch (err) {
-          if (err instanceof Error) console.log(err.message);
+          if (err instanceof Error) console.error(err.message);
         }
       }
     },

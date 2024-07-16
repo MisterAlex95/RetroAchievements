@@ -19,6 +19,7 @@ interface UserAction {
   isLoggedIn: () => boolean;
 
   fetchProfile: () => Promise<void>;
+  fetchProfileByName: (name: string) => Promise<void>;
   tryLogin: () => Promise<boolean>;
   login: (apiKey: string, remember?: boolean) => Promise<void>;
   logout: () => Promise<void>;
@@ -40,6 +41,10 @@ export const useUserStore = create<UserStore>()((set, get) => {
       set({ authorization: undefined });
       await Keychain.resetGenericPassword();
     },
+    isLoggedIn: () => {
+      const { authorization } = get();
+      return !!authorization;
+    },
     tryLogin: async () => {
       const { login, username } = get();
 
@@ -56,7 +61,7 @@ export const useUserStore = create<UserStore>()((set, get) => {
           console.warn("No credentials stored");
         }
       } catch (error) {
-        console.log("Keychain couldn't be accessed!", error);
+        console.error("Keychain couldn't be accessed!", error);
       }
       return false;
     },
@@ -75,34 +80,38 @@ export const useUserStore = create<UserStore>()((set, get) => {
             await Keychain.setGenericPassword(username, apiKey);
           }
         } catch (err) {
-          if (err instanceof Error) console.log(err.message);
+          if (err instanceof Error) console.error(err.message);
         }
       }
     },
 
+    // Get profile from RetroAchievements
     fetchProfile: async () => {
+      const { authorization, fetchProfileByName } = get();
+
+      if (authorization) {
+        try {
+          await fetchProfileByName(authorization.username);
+        } catch (err) {
+          if (err instanceof Error) console.error(err.message);
+        }
+      }
+    },
+    fetchProfileByName: async (name: string) => {
       const { authorization } = get();
 
       if (authorization) {
         try {
-          // https://retroachievements.org/API/API_GetUserProfile.php?u=MaxMilyin
           const answer = await RequestManager.getInstance().request({
-            url: `https://retroachievements.org/API/API_GetUserProfile.php?u=${authorization.username}`,
+            url: `https://retroachievements.org/API/API_GetUserProfile.php?z=${authorization.username}&y=${authorization.webApiKey}&u=${name}`,
             method: "GET",
           });
-          // const answer = await getUserProfile(authorization, {
-          //   username: authorization.username,
-          // });
 
           set({ profile: answer });
         } catch (err) {
-          if (err instanceof Error) console.log(err.message);
+          if (err instanceof Error) console.error(err.message);
         }
       }
-    },
-    isLoggedIn: () => {
-      const { authorization } = get();
-      return !!authorization;
     },
   };
 });

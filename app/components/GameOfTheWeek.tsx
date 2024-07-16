@@ -2,7 +2,6 @@ import { AchievementOfTheWeek } from "@retroachievements/api";
 import { View, Text, StyleSheet, Image } from "react-native";
 
 export default (props: { data: AchievementOfTheWeek }) => {
-  console.log(props.data);
   return (
     <View style={styles.container}>
       <Text>{props.data.achievement.title}</Text>
