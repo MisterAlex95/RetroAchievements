@@ -1,44 +1,53 @@
 import { UserProfile } from "@/app/types/user.type";
-import { Image, View, Text, StyleSheet } from "react-native";
+import { Image, View, Text } from "react-native";
+import { config } from "@/app/config";
+import { generateStyleSheet } from "@/app/helpers/debugStyle";
 
 export default (props: { user: UserProfile }) => {
-  console.log(props);
   return (
-    <View>
-      <View>
-        <View>
-          <Image
-            source={{
-              uri: "https://retroachievements.org" + props.user.UserPic,
-            }}
-            style={styles.image}
-          />
-        </View>
-        <Text>{props.user.User}</Text>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <Image
+          source={{
+            uri: "https://retroachievements.org" + props.user.UserPic,
+          }}
+          style={styles.image}
+        />
+        <Text style={styles.text}>{props.user.User}</Text>
       </View>
-      <View>
-        <Text>{props.user.RichPresenceMsg}</Text>
-      </View>
+      <Text style={styles.richPresenceText}>{props.user.RichPresenceMsg}</Text>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  image: {
-    width: 100,
-    height: 100,
+const styles = generateStyleSheet(
+  {
+    container: {
+      flex: 1,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      maxHeight: 200,
+      width: "100%",
+    },
+    header: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      maxHeight: 150,
+      width: "100%",
+    },
+    image: {
+      width: 100,
+      height: 100,
+      borderRadius: 100,
+    },
+    text: {
+      fontSize: 24,
+    },
+    richPresenceText: {
+      fontSize: 11,
+    },
   },
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  splitView: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  text: {
-    fontSize: 24,
-    margin: 20,
-  },
-});
+  config.debugStyle.components.UserCard,
+);
