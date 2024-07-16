@@ -4,11 +4,12 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { useUserStore, useGameStore } from "../stores";
 import { RootStackParamList } from "../index";
 import GameOfTheWeek from "../components/GameOfTheWeek";
+import UserCard from "../components/user/UserCard";
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, "Home">;
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
-  const { logout, fetchProfile } = useUserStore();
+  const { logout, fetchProfile, profile } = useUserStore();
   const { achievementOfTheWeek, fetchAchievementOfTheWeek } = useGameStore();
 
   const handleLogout = () => {
@@ -18,6 +19,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      {profile && <UserCard user={profile} />}
       <Text style={{ fontSize: 24, marginBottom: 20 }}>
         Bienvenue à la page d'accueil !
       </Text>

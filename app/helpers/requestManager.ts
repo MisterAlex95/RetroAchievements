@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 import { config } from "../config";
 import { getFixture } from "../fixtures";
@@ -10,7 +10,7 @@ export type RequestConfig = {
 };
 
 export default class RequestManager {
-  private requests: Map<string, Promise<any>> = new Map();
+  private requests: Map<string, Promise<AxiosResponse<any>>> = new Map();
   private static instance: RequestManager;
 
   private constructor() {}
@@ -22,7 +22,9 @@ export default class RequestManager {
     return RequestManager.instance;
   }
 
-  private async fetchRequest(requestConfig: RequestConfig): Promise<any> {
+  private async fetchRequest<T = any>(
+    requestConfig: RequestConfig,
+  ): Promise<AxiosResponse<T>> {
     if (config.ENABLE_FIXTURE && requestConfig.method === "GET") {
       const fixtureFilePath = `${requestConfig.url.substring(requestConfig.url.indexOf("API/") + 4, requestConfig.url.indexOf(".php")).replace(/\//g, "_")}`;
       const data = getFixture(fixtureFilePath);
@@ -33,15 +35,16 @@ export default class RequestManager {
     console.info(
       `Fetching ${requestConfig.method} request for ${requestConfig.url}`,
     );
+
     // Remplacez par la logique de requête réelle, par exemple avec fetch ou axios
-    return axios.request({
+    return axios.request<T>({
       method: requestConfig.method,
       url: requestConfig.url,
       data: requestConfig.body,
     });
   }
 
-  public async request(config: RequestConfig): Promise<any> {
+  public async request<T = any>(config: RequestConfig) {
     const requestKey = `${config.method || "GET"}:${config.url}`;
 
     if (this.requests.has(requestKey)) {
@@ -49,7 +52,7 @@ export default class RequestManager {
       return this.requests.get(requestKey);
     }
 
-    const requestPromise = this.fetchRequest(config).finally(() => {
+    const requestPromise = this.fetchRequest<T>(config).finally(() => {
       this.requests.delete(requestKey);
     });
 

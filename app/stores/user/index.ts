@@ -1,12 +1,9 @@
 import { create } from "zustand";
-import {
-  AuthObject,
-  buildAuthorization,
-  getUserProfile,
-  UserProfile,
-} from "@retroachievements/api";
+import { AuthObject, buildAuthorization } from "@retroachievements/api";
 import * as Keychain from "react-native-keychain";
+
 import RequestManager from "@/app/helpers/requestManager";
+import { UserProfile } from "@/app/types/user.type";
 
 interface UserState {
   profile?: UserProfile;
@@ -102,12 +99,14 @@ export const useUserStore = create<UserStore>()((set, get) => {
 
       if (authorization) {
         try {
-          const answer = await RequestManager.getInstance().request({
-            url: `https://retroachievements.org/API/API_GetUserProfile.php?z=${authorization.username}&y=${authorization.webApiKey}&u=${name}`,
-            method: "GET",
-          });
-
-          set({ profile: answer });
+          const answer =
+            await RequestManager.getInstance().request<UserProfile>({
+              url: `https://retroachievements.org/API/API_GetUserProfile.php?z=${authorization.username}&y=${authorization.webApiKey}&u=${name}`,
+              method: "GET",
+            });
+          if (answer) {
+            set({ profile: answer.data });
+          }
         } catch (err) {
           if (err instanceof Error) console.error(err.message);
         }
