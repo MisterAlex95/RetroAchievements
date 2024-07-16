@@ -1,27 +1,9 @@
-import {
-  Box,
-  Button,
-  ButtonText,
-  Checkbox,
-  CheckboxIcon,
-  CheckIcon,
-  CheckboxIndicator,
-  CheckboxLabel,
-  FormControl,
-  FormControlHelper,
-  FormControlHelperText,
-  FormControlLabel,
-  FormControlLabelText,
-  Input,
-  InputField,
-  Link,
-  LinkText,
-} from "@gluestack-ui/themed";
-
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, Text, Button, TextInput } from "react-native";
+import CheckBox from "@react-native-community/checkbox";
 import { useUserStore } from "../stores/";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
+import UrlButton from "../components/UrlButton";
 import { RootStackParamList } from "../index";
 import { StackScreenProps } from "@react-navigation/stack";
 
@@ -47,82 +29,54 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   }, [isLoggedIn(), navigation]);
 
   const handleLogin = async () => {
-    console.log(remember);
     await login(apiKey, remember);
   };
 
   return (
-    <Box style={styles.container}>
-      <Box>
-        <Box h="$32" w="$72">
-          <FormControl
-            size="md"
-            isDisabled={false}
-            isInvalid={false}
-            isReadOnly={false}
-            isRequired={false}
-          >
-            <Box mb="$10">
-              <FormControlLabel mb="$1">
-                <FormControlLabelText>Username</FormControlLabelText>
-              </FormControlLabel>
+    <View style={styles.container}>
+      <View>
+        <View>
+          <View>
+            <Text>Username</Text>
 
-              <Input>
-                <InputField
-                  type="text"
-                  defaultValue={username ?? ""}
-                  onChangeText={setUsername}
-                  placeholder="username"
-                />
-              </Input>
-            </Box>
+            <TextInput
+              defaultValue={username ?? ""}
+              onChangeText={setUsername}
+              placeholder="username"
+            />
+          </View>
 
-            <FormControlLabel mb="$1">
-              <FormControlLabelText>API Key</FormControlLabelText>
-            </FormControlLabel>
+          <Text>API Key</Text>
 
-            <Input>
-              <InputField
-                type="text"
-                defaultValue=""
-                placeholder="apiKey"
-                onChangeText={setApiKey}
+          <TextInput
+            defaultValue=""
+            placeholder="apiKey"
+            onChangeText={setApiKey}
+          />
+
+          <View>
+            <Text>
+              you can find it{" "}
+              <UrlButton
+                children="here"
+                url="https://retroachievements.org/controlpanel.php"
               />
-            </Input>
+            </Text>
+          </View>
 
-            <FormControlHelper>
-              <FormControlHelperText>
-                you can find it{" "}
-                <Link href="https://retroachievements.org/controlpanel.php">
-                  <LinkText marginVertical="$0" size="xs">
-                    here
-                  </LinkText>
-                </Link>
-              </FormControlHelperText>
-            </FormControlHelper>
+          <View style={styles.checkboxContainer}>
+            <CheckBox
+              value={remember}
+              onValueChange={setRemember}
+              style={styles.checkbox}
+            />
+            <Text style={styles.label}>Remember me</Text>
+          </View>
 
-            <Checkbox
-              size="md"
-              isInvalid={false}
-              isDisabled={false}
-              isChecked={remember}
-              value=""
-              onChange={setRemember}
-              aria-label="Remember button"
-            >
-              <CheckboxIndicator mr="$2">
-                <CheckboxIcon as={CheckIcon} />
-              </CheckboxIndicator>
-              <CheckboxLabel>Remember</CheckboxLabel>
-            </Checkbox>
-
-            <Button onPress={() => handleLogin()}>
-              <ButtonText>Login</ButtonText>
-            </Button>
-          </FormControl>
-        </Box>
-      </Box>
-    </Box>
+          <Button onPress={() => handleLogin()} title="Login" />
+        </View>
+      </View>
+    </View>
   );
 }
 
@@ -130,5 +84,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginLeft: 50,
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+  },
+  checkbox: {
+    alignSelf: "center",
+  },
+  label: {
+    margin: 8,
   },
 });

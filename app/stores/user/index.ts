@@ -10,7 +10,7 @@ import * as Keychain from "react-native-keychain";
 interface UserState {
   profile?: UserProfile;
   username?: string;
-  authObject?: AuthObject;
+  authorization?: AuthObject;
 }
 
 interface UserAction {
@@ -40,16 +40,19 @@ export const useUserStore = create<UserStore>()((set, get) => {
       await Keychain.resetGenericPassword();
     },
     tryLogin: async () => {
-      const { login } = get();
+      const { login, username } = get();
 
       try {
         // Retrieve the credentials
         const credentials = await Keychain.getGenericPassword();
         if (credentials) {
+          if (!username) {
+            set({ username: credentials.username });
+          }
           await login(credentials.password);
           return true;
         } else {
-          console.log("No credentials stored");
+          console.warn("No credentials stored");
         }
       } catch (error) {
         console.log("Keychain couldn't be accessed!", error);
@@ -61,12 +64,12 @@ export const useUserStore = create<UserStore>()((set, get) => {
 
       if (username && apiKey) {
         try {
-          const answer = await buildAuthorization({
+          const authorization = await buildAuthorization({
             username: username,
             webApiKey: apiKey,
           });
 
-          set({ authObject: answer });
+          set({ authorization: authorization });
           if (remember) {
             await Keychain.setGenericPassword(username, apiKey);
           }
@@ -76,12 +79,12 @@ export const useUserStore = create<UserStore>()((set, get) => {
       }
     },
     fetchProfile: async () => {
-      const { authObject } = get();
+      const { authorization } = get();
 
-      if (authObject) {
+      if (authorization) {
         try {
-          const answer = await getUserProfile(authObject, {
-            username: authObject.username,
+          const answer = await getUserProfile(authorization, {
+            username: authorization.username,
           });
 
           set({ profile: answer });
@@ -91,8 +94,8 @@ export const useUserStore = create<UserStore>()((set, get) => {
       }
     },
     isLoggedIn: () => {
-      const { authObject } = get();
-      return !!authObject;
+      const { authorization } = get();
+      return !!authorization;
     },
   };
 });

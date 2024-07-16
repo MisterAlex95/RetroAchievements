@@ -1,13 +1,15 @@
 import React from "react";
 import { View, Text, Button } from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
-import { useUserStore } from "../stores";
+import { useUserStore, useGameStore } from "../stores";
 import { RootStackParamList } from "../index";
+import GameOfTheWeek from "../components/GameOfTheWeek";
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, "Home">;
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const { logout, fetchProfile } = useUserStore();
+  const { achievementOfTheWeek, fetchAchievementOfTheWeek } = useGameStore();
 
   const handleLogout = () => {
     logout();
@@ -19,7 +21,11 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
       <Text style={{ fontSize: 24, marginBottom: 20 }}>
         Bienvenue à la page d'accueil !
       </Text>
+      {achievementOfTheWeek !== undefined && (
+        <GameOfTheWeek data={achievementOfTheWeek} />
+      )}
       <Button title="Fetch My Profile" onPress={fetchProfile} />
+      <Button title="Fetch My Data" onPress={fetchAchievementOfTheWeek} />
       <Button title="Se déconnecter" onPress={handleLogout} />
     </View>
   );
