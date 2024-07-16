@@ -6,6 +6,7 @@ import {
   UserProfile,
 } from "@retroachievements/api";
 import * as Keychain from "react-native-keychain";
+import RequestManager from "@/app/helpers/requestManager";
 
 interface UserState {
   profile?: UserProfile;
@@ -29,14 +30,14 @@ export const useUserStore = create<UserStore>()((set, get) => {
   return {
     // States
     username: undefined,
-    authObject: undefined,
+    authorization: undefined,
 
     // Actions
     setUsername: (username) => {
       set({ username });
     },
     logout: async () => {
-      set({ authObject: undefined });
+      set({ authorization: undefined });
       await Keychain.resetGenericPassword();
     },
     tryLogin: async () => {
@@ -78,14 +79,20 @@ export const useUserStore = create<UserStore>()((set, get) => {
         }
       }
     },
+
     fetchProfile: async () => {
       const { authorization } = get();
 
       if (authorization) {
         try {
-          const answer = await getUserProfile(authorization, {
-            username: authorization.username,
+          // https://retroachievements.org/API/API_GetUserProfile.php?u=MaxMilyin
+          const answer = await RequestManager.getInstance().request({
+            url: `https://retroachievements.org/API/API_GetUserProfile.php?u=${authorization.username}`,
+            method: "GET",
           });
+          // const answer = await getUserProfile(authorization, {
+          //   username: authorization.username,
+          // });
 
           set({ profile: answer });
         } catch (err) {
