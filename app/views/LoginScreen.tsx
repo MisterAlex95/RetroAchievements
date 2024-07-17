@@ -1,4 +1,13 @@
-import { StyleSheet, View, Text, Button, TextInput, Image } from "react-native";
+import {
+  KeyboardAvoidingView,
+  View,
+  Text,
+  Button,
+  TextInput,
+  Image,
+  Platform,
+  ScrollView,
+} from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import { useUserStore } from "../stores/";
 import React, { useEffect, useState } from "react";
@@ -35,15 +44,19 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   };
 
   return (
-    <View style={styles.container}>
-      <View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={50} // this could be dependent on something else
+      style={styles.container}
+    >
+      <ScrollView scrollEnabled style={styles.scrollViewContainer}>
         <View style={styles.imageContainer}>
           <Image
             style={styles.image}
             source={require("../../assets/images/ra-icon.png")}
           />
         </View>
-        <View>
+        <View style={styles.inputsContainer}>
           <View>
             <Text style={styles.label}>Username</Text>
 
@@ -65,7 +78,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
           />
 
           <View style={styles.helpContainer}>
-            <Text style={styles.helpText}>You can find it{" "}</Text>
+            <Text style={styles.helpText}>You can find it </Text>
             <UrlButton
               title="here"
               styles={{ button: styles.urlButton, text: styles.helpTextUrl }}
@@ -84,8 +97,8 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
 
           <Button onPress={() => handleLogin()} title="Login" />
         </View>
-      </View>
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -94,6 +107,9 @@ const styles = generateStyleSheet(
     container: {
       flex: 1,
       alignItems: "center",
+    },
+    scrollViewContainer: {
+      flex: 1,
     },
     image: {
       maxWidth: 250,
@@ -106,6 +122,10 @@ const styles = generateStyleSheet(
       backgroundColor: "#161616",
       margin: 10,
       borderRadius: 50,
+    },
+    inputsContainer: {
+      flex: 1,
+      minWidth: 250,
     },
     inputText: {
       borderWidth: 2,
@@ -130,7 +150,7 @@ const styles = generateStyleSheet(
     },
     checkboxContainer: {
       flexDirection: "row",
-      alignItems: 'center',
+      alignItems: "center",
       marginBottom: 20,
     },
     checkbox: {
