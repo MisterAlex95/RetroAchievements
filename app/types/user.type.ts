@@ -15,3 +15,23 @@ export interface UserProfile {
   UserPic: string;
   UserWallActive: true;
 }
+
+export interface UserCompletionProgress {
+  Results: UserCompletionProgressResult[];
+  Count: number;
+  Total: number;
+}
+
+export interface UserCompletionProgressResult {
+  ConsoleID: number;
+  ConsoleName: string;
+  GameID: number;
+  HighestAwardDate: any;
+  HighestAwardKind: any;
+  ImageIcon: string;
+  MaxPossible: number;
+  MostRecentAwardedDate: string;
+  NumAwarded: number;
+  NumAwardedHardcore: number;
+  Title: string;
+}

@@ -3,12 +3,13 @@ import { AuthObject, buildAuthorization } from "@retroachievements/api";
 import * as Keychain from "react-native-keychain";
 
 import RequestManager from "@/app/helpers/requestManager";
-import { UserProfile } from "@/app/types/user.type";
+import { UserCompletionProgress, UserProfile } from "@/app/types/user.type";
 
 interface UserState {
   profile?: UserProfile;
   username?: string;
   authorization?: AuthObject;
+  userCompletionProgress?: UserCompletionProgress;
 }
 
 interface UserAction {
@@ -17,6 +18,7 @@ interface UserAction {
 
   fetchProfile: () => Promise<void>;
   fetchProfileByName: (name: string) => Promise<void>;
+  fetchUserCompletionProgress: () => Promise<void>;
   tryLogin: () => Promise<boolean>;
   login: (apiKey: string, remember?: boolean) => Promise<void>;
   logout: () => Promise<void>;
@@ -27,8 +29,10 @@ type UserStore = UserState & UserAction;
 export const useUserStore = create<UserStore>()((set, get) => {
   return {
     // States
+    profile: undefined,
     username: undefined,
     authorization: undefined,
+    userCompletionProgress: undefined,
 
     // Actions
     setUsername: (username) => {
@@ -54,8 +58,6 @@ export const useUserStore = create<UserStore>()((set, get) => {
           }
           await login(credentials.password);
           return true;
-        } else {
-          console.warn("No credentials stored");
         }
       } catch (error) {
         console.error("Keychain couldn't be accessed!", error);
@@ -106,6 +108,26 @@ export const useUserStore = create<UserStore>()((set, get) => {
             });
           if (answer) {
             set({ profile: answer.data });
+          }
+        } catch (err) {
+          if (err instanceof Error) console.error(err.message);
+        }
+      }
+    },
+
+    fetchUserCompletionProgress: async () => {
+      const { authorization } = get();
+
+      if (authorization) {
+        try {
+          const answer =
+            await RequestManager.getInstance().request<UserCompletionProgress>({
+              url: `https://retroachievements.org/API/API_GetUserCompletionProgress.php?z=${authorization.username}&y=${authorization.webApiKey}&u=${authorization.username}`,
+              method: "GET",
+            });
+          if (answer) {
+            console.log(answer.data);
+            set({ userCompletionProgress: answer.data });
           }
         } catch (err) {
           if (err instanceof Error) console.error(err.message);

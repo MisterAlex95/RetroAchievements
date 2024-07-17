@@ -1,16 +1,36 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  Image,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { useUserStore, useGameStore } from "../stores";
 import { RootStackParamList } from "../index";
 import GameOfTheWeek from "../components/GameOfTheWeek";
 import UserCard from "../components/user/UserCard";
+import RecentAchivement from "../components/RecentAchivementBar";
+import RecentGameCard from "../components/RecentGameCard";
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, "Home">;
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
-  const { logout, fetchProfile, profile } = useUserStore();
-  const { achievementOfTheWeek, fetchAchievementOfTheWeek } = useGameStore();
+  const {
+    logout,
+    fetchProfile,
+    profile,
+    userCompletionProgress,
+    fetchUserCompletionProgress,
+  } = useUserStore();
+  const {
+    achievementOfTheWeek,
+    fetchAchievementOfTheWeek,
+    recentAchievements,
+    fetchRecentAchievements,
+  } = useGameStore();
 
   const handleLogout = () => {
     logout();
@@ -20,17 +40,44 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       {profile && <UserCard user={profile} />}
-      <Text style={{ fontSize: 24, marginBottom: 20 }}>
-        Bienvenue à la page d'accueil !
-      </Text>
+      <RecentAchivement data={recentAchievements} />
       {achievementOfTheWeek !== undefined && (
         <GameOfTheWeek data={achievementOfTheWeek} />
       )}
+      <ScrollView style={{ flex: 1, width: "100%" }}>
+        {userCompletionProgress &&
+          userCompletionProgress.Results.map((_) => (
+            <RecentGameCard data={_} />
+          ))}
+      </ScrollView>
       <Button title="Fetch My Profile" onPress={fetchProfile} />
+      <Button
+        title="Fetch Recent Achievemet"
+        onPress={fetchRecentAchievements}
+      />
       <Button title="Fetch My Data" onPress={fetchAchievementOfTheWeek} />
+      <Button
+        title="Fetch Completion Progress"
+        onPress={fetchUserCompletionProgress}
+      />
       <Button title="Se déconnecter" onPress={handleLogout} />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  image: {
+    width: 50,
+    height: 50,
+    borderRadius: 5,
+    marginHorizontal: 1,
+  },
+  container: {
+    flex: 1,
+    flexDirection: "row",
+    width: "100%",
+    maxHeight: 50,
+  },
+});
 
 export default HomeScreen;

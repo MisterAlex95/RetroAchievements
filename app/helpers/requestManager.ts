@@ -59,12 +59,4 @@ export default class RequestManager {
     this.requests.set(requestKey, requestPromise);
     return requestPromise;
   }
-
-  public enableFixtures(): void {
-    config.ENABLE_FIXTURE = true;
-  }
-
-  public disableFixtures(): void {
-    config.ENABLE_FIXTURE = false;
-  }
 }
