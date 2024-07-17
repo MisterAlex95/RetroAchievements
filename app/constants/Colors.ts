@@ -1,26 +1,27 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
-
 const tintColorLight = "#0a7ea4";
 const tintColorDark = "#161616";
 
 export const Colors = {
   light: {
-    text: "#11181C",
-    background: "#161616",
-    tint: tintColorLight,
-    icon: "#687076",
-    tabIconDefault: "#687076",
-    tabIconSelected: tintColorLight,
+    primary: "#1d428a", // Primary color: buttons, links
+    secondary: "#ffd700", // Secondary color: secondary buttons, accents
+    accent: "#a67c00", // Accent color: highlights, special UI elements
+    neutral: "#2d2d2d", // Neutral color: backgrounds, cards, modals
+    "base-100": "#f5f5f5", // Base color: main background
+    info: "#3ab7ff", // Info color: informational messages, tooltips
+    success: "#28a745", // Success color: success messages, notifications
+    warning: "#ffc107", // Warning color: warning messages, alerts
+    error: "#dc3545", // Error color: error messages, critical alerts
   },
   dark: {
-    text: "#ECEDEE",
-    background: "#151718",
-    tint: tintColorDark,
-    icon: "#9BA1A6",
-    tabIconDefault: "#9BA1A6",
-    tabIconSelected: tintColorDark,
+    primary: "#1d428a", // Primary color: buttons, links
+    secondary: "#ffd700", // Secondary color: secondary buttons, accents
+    accent: "#a67c00", // Accent color: highlights, special UI elements
+    neutral: "#2d2d2d", // Neutral color: text, borders
+    "base-100": "#ffffff", // Base color: main background
+    info: "#3ab7ff", // Info color: informational messages, tooltips
+    success: "#28a745", // Success color: success messages, notifications
+    warning: "#ffc107", // Warning color: warning messages, alerts
+    error: "#dc3545", // Error color: error messages, critical alerts
   },
 };

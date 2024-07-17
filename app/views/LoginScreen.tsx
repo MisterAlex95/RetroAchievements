@@ -17,6 +17,7 @@ import { RootStackParamList } from "../index";
 import { StackScreenProps } from "@react-navigation/stack";
 import { generateStyleSheet } from "@/app/helpers/debugStyle";
 import { config } from "../config";
+import { Colors } from "../constants/Colors";
 
 type LoginScreenProps = StackScreenProps<RootStackParamList, "Login">;
 
@@ -91,11 +92,16 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
               value={remember}
               onValueChange={setRemember}
               style={styles.checkbox}
+              tintColors={{ true: Colors.dark.secondary, false: "black" }}
             />
             <Text style={styles.label}>Remember me</Text>
           </View>
 
-          <Button onPress={() => handleLogin()} title="Login" />
+          <Button
+            onPress={() => handleLogin()}
+            title="Login"
+            color={Colors.dark.primary}
+          />
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -106,7 +112,9 @@ const styles = generateStyleSheet(
   {
     container: {
       flex: 1,
+      marginTop: 50,
       alignItems: "center",
+      backgroundColor: Colors.dark["base-100"],
     },
     scrollViewContainer: {
       flex: 1,
@@ -133,17 +141,19 @@ const styles = generateStyleSheet(
       padding: 1,
       paddingHorizontal: 15,
       marginVertical: 5,
-      color: "#161616",
+      color: Colors.dark.neutral,
     },
     helpContainer: {
       flexDirection: "row",
     },
     helpText: {
       fontSize: 12,
+      color: Colors.dark.neutral,
     },
     helpTextUrl: {
       fontSize: 12,
       textDecorationLine: "underline",
+      color: Colors.dark.neutral,
     },
     urlButton: {
       fontSize: 12,
@@ -155,11 +165,12 @@ const styles = generateStyleSheet(
     },
     checkbox: {
       alignSelf: "center",
+      color: Colors.dark.secondary,
     },
     label: {
       fontSize: 15,
-      color: "#161616",
       fontWeight: "bold",
+      color: Colors.dark.neutral,
     },
   },
   config.debugStyle.views.LoginScreen,
