@@ -1,10 +1,19 @@
-import { View, StyleSheet, ImageBackground, Text } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { UserCompletionProgressResult } from "../../types/user.type";
 import { Colors } from "../../constants/Colors";
 import CircularProgress from "react-native-circular-progress-indicator";
 import { useUserStore } from "../../stores";
 
-export default (props: { data?: UserCompletionProgressResult }) => {
+export default (props: {
+  data?: UserCompletionProgressResult;
+  goToGamePage: () => void;
+}) => {
   const { userProgressPerGame } = useUserStore();
   if (!props.data) return;
 
@@ -24,7 +33,7 @@ export default (props: { data?: UserCompletionProgressResult }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={props.goToGamePage}>
       <ImageBackground
         source={{
           uri: "https://retroachievements.org" + props.data.ImageIcon,
@@ -91,7 +100,7 @@ export default (props: { data?: UserCompletionProgressResult }) => {
           {new Date(props.data.MostRecentAwardedDate).toLocaleTimeString()}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

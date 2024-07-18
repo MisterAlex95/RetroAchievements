@@ -5,6 +5,7 @@ export type BottomTabParamList = {
   Home: undefined;
   Login: undefined;
   Setting: undefined;
+  Game: { gameId: string };
   //   Place: { placeId: number };
 };
 
@@ -24,3 +25,5 @@ export type SettingTabProps = BottomTabScreenProps<
   BottomTabParamList,
   "Setting"
 >;
+
+export type GameTabProps = BottomTabScreenProps<BottomTabParamList, "Game">;

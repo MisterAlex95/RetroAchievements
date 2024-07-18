@@ -25,7 +25,7 @@ export interface UserCompletionProgress {
 export interface UserCompletionProgressResult {
   ConsoleID: number;
   ConsoleName: string;
-  GameID: number;
+  GameID: string;
   HighestAwardDate: any;
   HighestAwardKind: any;
   ImageIcon: string;

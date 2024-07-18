@@ -32,6 +32,10 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
 
   const getItemCount = (_data: unknown) => userCompletionProgress?.Count ?? 0;
 
+  const goToGamePage = (gameId?: string) => {
+    navigation.navigate("Game", { gameId: gameId ?? "" });
+  };
+
   return (
     <View style={styles.container}>
       {profile && <UserCard user={profile} />}
@@ -41,7 +45,11 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
           style={styles.virtualizeListContainer}
           initialNumToRender={4}
           renderItem={(_) => (
-            <RecentGameCard key={_.item?.GameID} data={_.item} />
+            <RecentGameCard
+              key={_.item?.GameID}
+              data={_.item}
+              goToGamePage={() => goToGamePage(_.item?.GameID)}
+            />
           )}
           keyExtractor={(item, index) => index.toString()}
           onRefresh={fetchUserCompletionProgress}

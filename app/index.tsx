@@ -5,7 +5,8 @@ import { Colors } from "./constants/Colors";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SettingsScreen from "./views/SettingsScreen";
 import { BottomTabParamList } from "./types";
-import { StatusBar } from "react-native";
+import { StatusBar, Button } from "react-native";
+import GameScreen from "./views/GameScreen";
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -38,6 +39,11 @@ export default function App() {
             },
           }}
           component={LoginScreen}
+        />
+        <Tab.Screen
+          name="Game"
+          options={{ tabBarButton: (props) => undefined }}
+          component={GameScreen}
         />
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Setting" component={SettingsScreen} />
