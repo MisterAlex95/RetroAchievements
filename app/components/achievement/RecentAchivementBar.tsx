@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Image } from "react-native";
-import { RecentAchievements } from "../types/game.type";
+import { RecentAchievements } from "../../types";
 
 export default (props: { data?: RecentAchievements }) => {
   return (

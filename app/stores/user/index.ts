@@ -18,6 +18,7 @@ interface UserState {
   isFetchingUserCompletionProgress: boolean;
 
   userProgressPerGame: Record<string, UserGameProgression>;
+  
   isFetchingUserProgressPerGame: boolean;
 }
 

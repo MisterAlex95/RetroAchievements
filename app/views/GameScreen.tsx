@@ -1,18 +1,27 @@
 import React from "react";
-import { View, StyleSheet, Image, Text, ImageBackground } from "react-native";
-import { GameTabProps } from "../types";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  ImageBackground,
+  VirtualizedList,
+} from "react-native";
+import { Achievement, GameExtended, GameTabProps } from "../types";
 import { Colors } from "../constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useUserStore } from "../stores";
+import { useGameStore, useUserStore } from "../stores";
 import CircularProgress from "react-native-circular-progress-indicator";
+import AchievementCard from "../components/achievement/AchievementCard";
 
 const GameScreen = ({ navigation, route }: GameTabProps) => {
   const { userCompletionProgress, userProgressPerGame } = useUserStore();
+  const { gameExtended, fetchGameExtended } = useGameStore();
+
   const currentGame = userCompletionProgress?.Results.find(
     (r) => r.GameID === route.params.gameId,
   );
   const userProgression = userProgressPerGame[route.params.gameId];
-  if (!currentGame) return <></>;
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -27,7 +36,20 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
         </View>
       ),
     });
+
+    fetchGameExtended(route.params.gameId);
   }, [navigation]);
+
+  if (!currentGame || !gameExtended) return <></>;
+
+  const getItem = (_data: unknown, index: number): Achievement => {
+    return Object.keys(gameExtended.Achievements).map(
+      (_) => gameExtended.Achievements[_],
+    )[index];
+  };
+
+  const getItemCount = (_data: unknown) =>
+    Object.keys(gameExtended.Achievements).length ?? 0;
 
   return (
     <View style={styles.container}>
@@ -61,6 +83,14 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
           />
         </View>
       </ImageBackground>
+      <VirtualizedList
+        style={styles.virtualizeListContainer}
+        initialNumToRender={4}
+        renderItem={(_) => <AchievementCard data={_.item} />}
+        keyExtractor={(item, index) => index.toString()}
+        getItemCount={getItemCount}
+        getItem={getItem}
+      />
     </View>
   );
 };
@@ -81,6 +111,11 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "rgba(0,0,0, 0.60)",
   },
+  virtualizeListContainer: {
+    flex: 1,
+    maxHeight: "55%",
+    width: "100%",
+  },
   textTitle: {
     marginTop: 15,
     color: Colors.dark.basicText,
@@ -88,7 +123,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexDirection: "row",
+    flexDirection: "column",
     width: "100%",
     height: "100%",
   },

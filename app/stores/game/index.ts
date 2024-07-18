@@ -2,15 +2,19 @@ import { create } from "zustand";
 
 import { useUserStore } from "../user";
 import RequestManager from "@/app/helpers/requestManager";
-import { RecentAchievements } from "@/app/types/game.type";
+import { GameExtended, RecentAchievements } from "@/app/types/game.type";
 
 interface GameState {
   recentAchievements?: RecentAchievements;
   isFetchingRecentAchievements: boolean;
+
+  gameExtended?: GameExtended;
+  isFetchingGameExtended: boolean;
 }
 
 interface GameAction {
   fetchRecentAchievements: () => Promise<void>;
+  fetchGameExtended: (gameId: string) => Promise<void>;
 }
 
 type GameStore = GameState & GameAction;
@@ -20,6 +24,9 @@ export const useGameStore = create<GameStore>()((set, get) => {
     // States
     recentAchievements: [],
     isFetchingRecentAchievements: false,
+
+    gameExtended: undefined,
+    isFetchingGameExtended: false,
 
     // Actions
     fetchRecentAchievements: async () => {
@@ -44,6 +51,30 @@ export const useGameStore = create<GameStore>()((set, get) => {
           if (err instanceof Error) console.error(err.message);
         }
         set({ isFetchingRecentAchievements: false });
+      }
+    },
+    fetchGameExtended: async (gameId: string) => {
+      const { authorization } = useUserStore.getState();
+      set({ isFetchingGameExtended: true });
+
+      if (authorization) {
+        try {
+          const answer =
+            await RequestManager.getInstance().request<GameExtended>({
+              url: `https://retroachievements.org/API/API_GetGameExtended.php?z=${authorization.username}&y=${authorization.webApiKey}&i=${gameId}`,
+              method: "GET",
+            });
+          if (answer) {
+            set({
+              gameExtended: answer.data,
+              isFetchingGameExtended: false,
+            });
+            return;
+          }
+        } catch (err) {
+          if (err instanceof Error) console.error(err.message);
+        }
+        set({ isFetchingGameExtended: false });
       }
     },
   };
