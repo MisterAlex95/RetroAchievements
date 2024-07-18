@@ -27,9 +27,10 @@ export default class RequestManager {
   ): Promise<AxiosResponse<T>> {
     if (config.ENABLE_FIXTURE && requestConfig.method === "GET") {
       const fixtureFilePath = `${requestConfig.url.substring(requestConfig.url.indexOf("API/") + 4, requestConfig.url.indexOf(".php")).replace(/\//g, "_")}`;
-      const data = getFixture(fixtureFilePath);
-      if (data) return data;
-      else throw new Error(`Fixture file not found for ${requestConfig.url}`);
+      const data = getFixture<T>(fixtureFilePath);
+      if (data) {
+        return { data } as AxiosResponse<T>;
+      } else throw new Error(`Fixture file not found for ${requestConfig.url}`);
     }
 
     console.info(

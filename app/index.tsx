@@ -5,16 +5,24 @@ import { Colors } from "./constants/Colors";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SettingsScreen from "./views/SettingsScreen";
 import { BottomTabParamList } from "./types";
+import { StatusBar } from "react-native";
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 export default function App() {
   return (
     <NavigationContainer independent={true}>
+      <StatusBar hidden={true} />
       <Tab.Navigator
-        sceneContainerStyle={{ backgroundColor: Colors.dark["base-100"] }}
+        sceneContainerStyle={{ backgroundColor: Colors.dark.background }}
         screenOptions={{
           header: () => undefined,
+          tabBarLabelStyle: {
+            color: Colors.dark.basicText,
+          },
+          tabBarItemStyle: {
+            backgroundColor: Colors.dark.menuBackgound,
+          },
         }}
       >
         <Tab.Screen
@@ -22,6 +30,12 @@ export default function App() {
           options={{
             // Hide the login button
             tabBarButton: (props) => undefined,
+            tabBarItemStyle: {
+              backgroundColor: Colors.dark.background,
+            },
+            tabBarStyle: {
+              backgroundColor: Colors.dark.background,
+            },
           }}
           component={LoginScreen}
         />

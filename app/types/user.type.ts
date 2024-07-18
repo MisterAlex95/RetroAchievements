@@ -35,3 +35,12 @@ export interface UserCompletionProgressResult {
   NumAwardedHardcore: number;
   Title: string;
 }
+
+export interface UserGameProgression {
+  NumPossibleAchievements: number;
+  PossibleScore: number;
+  NumAchieved: number;
+  ScoreAchieved: number;
+  NumAchievedHardcore: number;
+  ScoreAchievedHardcore: number;
+}

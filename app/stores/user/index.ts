@@ -3,13 +3,18 @@ import { AuthObject, buildAuthorization } from "@retroachievements/api";
 import * as Keychain from "react-native-keychain";
 
 import RequestManager from "@/app/helpers/requestManager";
-import { UserCompletionProgress, UserProfile } from "@/app/types/user.type";
+import {
+  UserGameProgression,
+  UserCompletionProgress,
+  UserProfile,
+} from "@/app/types/user.type";
 
 interface UserState {
   profile?: UserProfile;
   username?: string;
   authorization?: AuthObject;
   userCompletionProgress?: UserCompletionProgress;
+  userProgressPerGame: Record<string, UserGameProgression>;
 }
 
 interface UserAction {
@@ -19,6 +24,8 @@ interface UserAction {
   fetchProfile: () => Promise<void>;
   fetchProfileByName: (name: string) => Promise<void>;
   fetchUserCompletionProgress: () => Promise<void>;
+  fetchUserProgressPerGame: (gameIds: string[]) => Promise<void>;
+
   tryLogin: () => Promise<boolean>;
   login: (apiKey: string, remember?: boolean) => Promise<void>;
   logout: () => Promise<void>;
@@ -33,6 +40,7 @@ export const useUserStore = create<UserStore>()((set, get) => {
     username: undefined,
     authorization: undefined,
     userCompletionProgress: undefined,
+    userProgressPerGame: {},
 
     // Actions
     setUsername: (username) => {
@@ -106,6 +114,7 @@ export const useUserStore = create<UserStore>()((set, get) => {
               url: `https://retroachievements.org/API/API_GetUserProfile.php?z=${authorization.username}&y=${authorization.webApiKey}&u=${name}`,
               method: "GET",
             });
+
           if (answer) {
             set({ profile: answer.data });
           }
@@ -115,19 +124,44 @@ export const useUserStore = create<UserStore>()((set, get) => {
       }
     },
 
-    fetchUserCompletionProgress: async () => {
-      const { authorization } = get();
+    fetchUserCompletionProgress: async (offset: number = 0) => {
+      const { authorization, fetchUserProgressPerGame } = get();
 
       if (authorization) {
         try {
           const answer =
             await RequestManager.getInstance().request<UserCompletionProgress>({
-              url: `https://retroachievements.org/API/API_GetUserCompletionProgress.php?z=${authorization.username}&y=${authorization.webApiKey}&u=${authorization.username}`,
+              url: `https://retroachievements.org/API/API_GetUserCompletionProgress.php?z=${authorization.username}&y=${authorization.webApiKey}&u=${authorization.username}&o=${offset}`,
               method: "GET",
             });
           if (answer) {
-            console.log(answer.data);
             set({ userCompletionProgress: answer.data });
+            fetchUserProgressPerGame(
+              answer.data.Results.map((g: any) => g.GameID),
+            );
+          }
+        } catch (err) {
+          if (err instanceof Error) console.error(err.message);
+        }
+      }
+    },
+    fetchUserProgressPerGame: async (gameIds: string[]) => {
+      const { authorization, userProgressPerGame } = get();
+
+      if (authorization && gameIds && gameIds.length > 0) {
+        try {
+          const answer =
+            await RequestManager.getInstance().request<UserCompletionProgress>({
+              url: `https://retroachievements.org/API/API_GetUserProgress.php?z=${authorization.username}&y=${authorization.webApiKey}&u=${authorization.username}&i=${gameIds.join(",")}`,
+              method: "GET",
+            });
+          if (answer) {
+            gameIds.forEach((gameId) => {
+              if (answer.data[gameId]) {
+                userProgressPerGame[gameId] = answer.data[gameId];
+              }
+            });
+            set({ userProgressPerGame });
           }
         } catch (err) {
           if (err instanceof Error) console.error(err.message);

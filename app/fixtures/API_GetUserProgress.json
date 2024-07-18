@@ -1,0 +1,26 @@
+{
+  "20246": {
+    "NumPossibleAchievements": 23,
+    "PossibleScore": 251,
+    "NumAchieved": 23,
+    "ScoreAchieved": 251,
+    "NumAchievedHardcore": 23,
+    "ScoreAchievedHardcore": 251
+  },
+  "2": {
+    "NumPossibleAchievements": 22,
+    "PossibleScore": 320,
+    "NumAchieved": 22,
+    "ScoreAchieved": 320,
+    "NumAchievedHardcore": 22,
+    "ScoreAchievedHardcore": 320
+  },
+  "3": {
+    "NumPossibleAchievements": 23,
+    "PossibleScore": 335,
+    "NumAchieved": 23,
+    "ScoreAchieved": 335,
+    "NumAchievedHardcore": 23,
+    "ScoreAchievedHardcore": 335
+  }
+}

@@ -3,8 +3,8 @@ const debugStyle = {
     UserCard: false,
   },
   views: {
-    LoginScreen: false
-  }
+    LoginScreen: false,
+  },
 };
 
 export const config = {
