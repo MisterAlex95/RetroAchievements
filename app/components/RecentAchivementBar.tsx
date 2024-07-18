@@ -7,6 +7,7 @@ export default (props: { data?: RecentAchievements }) => {
       {props.data &&
         props.data.map((ra) => (
           <Image
+            key={ra.AchievementID}
             source={{
               uri: "https://retroachievements.org" + ra.BadgeURL,
             }}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -32,6 +32,13 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     fetchRecentAchievements,
   } = useGameStore();
 
+  useEffect(() => {
+    fetchProfile();
+    fetchUserCompletionProgress();
+    fetchAchievementOfTheWeek();
+    fetchRecentAchievements();
+  }, []);
+
   const handleLogout = () => {
     logout();
     navigation.replace("Login");
@@ -50,16 +57,6 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
             <RecentGameCard data={_} />
           ))}
       </ScrollView>
-      <Button title="Fetch My Profile" onPress={fetchProfile} />
-      <Button
-        title="Fetch Recent Achievemet"
-        onPress={fetchRecentAchievements}
-      />
-      <Button title="Fetch My Data" onPress={fetchAchievementOfTheWeek} />
-      <Button
-        title="Fetch Completion Progress"
-        onPress={fetchUserCompletionProgress}
-      />
       <Button title="Se déconnecter" onPress={handleLogout} />
     </View>
   );
