@@ -13,8 +13,12 @@ interface UserState {
   profile?: UserProfile;
   username?: string;
   authorization?: AuthObject;
+
   userCompletionProgress?: UserCompletionProgress;
+  isFetchingUserCompletionProgress: boolean;
+
   userProgressPerGame: Record<string, UserGameProgression>;
+  isFetchingUserProgressPerGame: boolean;
 }
 
 interface UserAction {
@@ -39,7 +43,11 @@ export const useUserStore = create<UserStore>()((set, get) => {
     profile: undefined,
     username: undefined,
     authorization: undefined,
+
+    isFetchingUserCompletionProgress: false,
     userCompletionProgress: undefined,
+
+    isFetchingUserProgressPerGame: false,
     userProgressPerGame: {},
 
     // Actions
@@ -126,6 +134,7 @@ export const useUserStore = create<UserStore>()((set, get) => {
 
     fetchUserCompletionProgress: async (offset: number = 0) => {
       const { authorization, fetchUserProgressPerGame } = get();
+      set({ isFetchingUserCompletionProgress: true });
 
       if (authorization) {
         try {
@@ -135,19 +144,25 @@ export const useUserStore = create<UserStore>()((set, get) => {
               method: "GET",
             });
           if (answer) {
-            set({ userCompletionProgress: answer.data });
-            fetchUserProgressPerGame(
+            set({
+              userCompletionProgress: answer.data,
+              isFetchingUserCompletionProgress: false,
+            });
+            await fetchUserProgressPerGame(
               answer.data.Results.map((g: any) => g.GameID),
             );
+            return;
           }
         } catch (err) {
           if (err instanceof Error) console.error(err.message);
         }
+        set({ isFetchingUserCompletionProgress: false });
       }
     },
     fetchUserProgressPerGame: async (gameIds: string[]) => {
       const { authorization, userProgressPerGame } = get();
 
+      set({ isFetchingUserProgressPerGame: true });
       if (authorization && gameIds && gameIds.length > 0) {
         try {
           const answer =
@@ -161,11 +176,13 @@ export const useUserStore = create<UserStore>()((set, get) => {
                 userProgressPerGame[gameId] = answer.data[gameId];
               }
             });
-            set({ userProgressPerGame });
+            set({ userProgressPerGame, isFetchingUserProgressPerGame: false });
+            return;
           }
         } catch (err) {
           if (err instanceof Error) console.error(err.message);
         }
+        set({ isFetchingUserProgressPerGame: false });
       }
     },
   };

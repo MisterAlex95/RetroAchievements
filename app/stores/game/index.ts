@@ -5,14 +5,11 @@ import RequestManager from "@/app/helpers/requestManager";
 import { RecentAchievements } from "@/app/types/game.type";
 
 interface GameState {
-  ownGames: any[];
-  wishGames: any[];
   recentAchievements?: RecentAchievements;
+  isFetchingRecentAchievements: boolean;
 }
 
 interface GameAction {
-  fetchOwnGames: () => Promise<void>;
-  fetchWishGames: () => Promise<void>;
   fetchRecentAchievements: () => Promise<void>;
 }
 
@@ -21,16 +18,13 @@ type GameStore = GameState & GameAction;
 export const useGameStore = create<GameStore>()((set, get) => {
   return {
     // States
-    ownGames: [],
-    wishGames: [],
-    achievementOfTheWeek: undefined,
+    recentAchievements: [],
+    isFetchingRecentAchievements: false,
 
     // Actions
-    fetchOwnGames: async () => {
-      set({ ownGames: [] });
-    },
     fetchRecentAchievements: async () => {
       const { authorization } = useUserStore.getState();
+      set({ isFetchingRecentAchievements: true });
 
       if (authorization) {
         try {
@@ -40,15 +34,17 @@ export const useGameStore = create<GameStore>()((set, get) => {
               method: "GET",
             });
           if (answer) {
-            set({ recentAchievements: answer.data });
+            set({
+              recentAchievements: answer.data,
+              isFetchingRecentAchievements: false,
+            });
+            return;
           }
         } catch (err) {
           if (err instanceof Error) console.error(err.message);
         }
+        set({ isFetchingRecentAchievements: false });
       }
-    },
-    fetchWishGames: async () => {
-      set({ wishGames: [] });
     },
   };
 });

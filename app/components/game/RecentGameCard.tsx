@@ -4,8 +4,9 @@ import { Colors } from "../../constants/Colors";
 import CircularProgress from "react-native-circular-progress-indicator";
 import { useUserStore } from "../../stores";
 
-export default (props: { data: UserCompletionProgressResult }) => {
+export default (props: { data?: UserCompletionProgressResult }) => {
   const { userProgressPerGame } = useUserStore();
+  if (!props.data) return;
 
   const smallerPlatformName = (platformName: string) => {
     switch (platformName) {
