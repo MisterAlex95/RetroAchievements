@@ -13,13 +13,10 @@ import { useUserStore } from "../stores/";
 import React, { useEffect, useState } from "react";
 
 import UrlButton from "../components/UrlButton";
-import { RootStackParamList } from "../index";
-import { StackScreenProps } from "@react-navigation/stack";
 import { generateStyleSheet } from "@/app/helpers/debugStyle";
 import { config } from "../config";
 import { Colors } from "../constants/Colors";
-
-type LoginScreenProps = StackScreenProps<RootStackParamList, "Login">;
+import { LoginScreenProps } from "../types";
 
 export default function LoginScreen({ navigation }: LoginScreenProps) {
   const { login, username, setUsername, isLoggedIn, tryLogin } = useUserStore();
@@ -29,14 +26,14 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   useEffect(() => {
     const autoLogin = async () => {
       if (await tryLogin()) {
-        navigation.replace("Home");
+        navigation.navigate("Home");
       }
     };
 
     autoLogin().catch((err) => console.error(err));
 
     if (isLoggedIn()) {
-      navigation.replace("Home");
+      navigation.navigate("Home");
     }
   }, [isLoggedIn(), navigation]);
 

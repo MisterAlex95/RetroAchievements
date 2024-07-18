@@ -1,21 +1,15 @@
 import React, { useEffect } from "react";
-import {
-  View,
-  Text,
-  Button,
-  Image,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
-import { StackScreenProps } from "@react-navigation/stack";
+import { View, Button, ScrollView, StyleSheet } from "react-native";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useUserStore, useGameStore } from "../stores";
-import { RootStackParamList } from "../index";
+import { RootBottomTabParamList } from "../index";
 import GameOfTheWeek from "../components/GameOfTheWeek";
 import UserCard from "../components/user/UserCard";
 import RecentAchivement from "../components/RecentAchivementBar";
 import RecentGameCard from "../components/RecentGameCard";
 
-type HomeScreenProps = StackScreenProps<RootStackParamList, "Home">;
+import type { HomeScreenProps } from "../types/";
+
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const {
@@ -41,7 +35,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
 
   const handleLogout = () => {
     logout();
-    navigation.replace("Login");
+    navigation.navigate("Login");
   };
 
   return (
