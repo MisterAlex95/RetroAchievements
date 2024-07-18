@@ -1,8 +1,8 @@
 import { View, StyleSheet, ImageBackground, Text } from "react-native";
-import { UserCompletionProgressResult } from "../types/user.type";
-import { Colors } from "../constants/Colors";
+import { UserCompletionProgressResult } from "../../types/user.type";
+import { Colors } from "../../constants/Colors";
 import CircularProgress from "react-native-circular-progress-indicator";
-import { useUserStore } from "../stores";
+import { useUserStore } from "../../stores";
 
 export default (props: { data: UserCompletionProgressResult }) => {
   const { userProgressPerGame } = useUserStore();

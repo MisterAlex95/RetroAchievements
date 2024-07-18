@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 
-import { config } from "../config";
-import { getFixture } from "../fixtures";
+import { config } from "../../config";
+import { getFixture } from "../../fixtures";
 
 export type RequestConfig = {
   url: string;

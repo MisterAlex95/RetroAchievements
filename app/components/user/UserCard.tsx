@@ -1,6 +1,6 @@
 import { UserProfile } from "@/app/types/user.type";
 import { Image, View, Text } from "react-native";
-import { config } from "@/app/config";
+import { config } from "@/config";
 import { generateStyleSheet } from "@/app/helpers/debugStyle";
 import { Colors } from "@/app/constants/Colors";
 

@@ -12,9 +12,9 @@ import CheckBox from "@react-native-community/checkbox";
 import { useUserStore } from "../stores/";
 import React, { useEffect, useState } from "react";
 
-import UrlButton from "../components/UrlButton";
+import UrlButton from "../components/common/UrlButton";
 import { generateStyleSheet } from "@/app/helpers/debugStyle";
-import { config } from "../config";
+import { config } from "../../config";
 import { Colors } from "../constants/Colors";
 import { LoginScreenProps } from "../types";
 

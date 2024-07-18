@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import { useUserStore, useGameStore } from "../stores";
 import UserCard from "../components/user/UserCard";
-import RecentAchivement from "../components/RecentAchivementBar";
-import RecentGameCard from "../components/RecentGameCard";
+import RecentAchivement from "../components/achievement/RecentAchivementBar";
+import RecentGameCard from "../components/game/RecentGameCard";
 
 import type { HomeScreenProps } from "../types/";
 
