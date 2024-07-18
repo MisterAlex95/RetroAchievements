@@ -1,27 +1,26 @@
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-export type RootStackParamList = {
+export type BottomTabParamList = {
   Home: undefined;
   Login: undefined;
+  Setting: undefined;
   //   Place: { placeId: number };
 };
 
 export type HomeScreenProps = NativeStackScreenProps<
-  RootStackParamList,
+  BottomTabParamList,
   "Home"
 >;
 
 export type LoginScreenProps = NativeStackScreenProps<
-  RootStackParamList,
+  BottomTabParamList,
   "Login"
 >;
 
-export type BottomTabParamList = {
-  Home: undefined;
-  Test: undefined;
-};
-
 export type HomeTabProps = BottomTabScreenProps<BottomTabParamList, "Home">;
 
-export type TestTabProps = BottomTabScreenProps<BottomTabParamList, "Test">;
+export type SettingTabProps = BottomTabScreenProps<
+  BottomTabParamList,
+  "Setting"
+>;
