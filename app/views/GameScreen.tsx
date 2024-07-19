@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -23,16 +23,18 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
   );
   const userProgression = userProgressPerGame[route.params.gameId];
 
-  React.useEffect(() => {
+  useEffect(() => {
     navigation.setOptions({
       header: () => (
-        <View style={{ width: 50, margin: 15, marginTop: 25 }}>
-          <Ionicons
-            onPress={() => navigation.navigate("Home")}
-            name="chevron-back"
-            size={32}
-            color={Colors.dark.basicText}
-          />
+        <View style={styles.headerContainer}>
+          <View style={styles.headerButton}>
+            <Ionicons
+              onPress={() => navigation.navigate("Home")}
+              name="chevron-back"
+              size={32}
+              color={Colors.dark.basicText}
+            />
+          </View>
         </View>
       ),
     });
@@ -96,13 +98,25 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
 };
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    width: "100%",
+  },
+  headerButton: {
+    width: 50,
+    margin: 15,
+    marginTop: 25,
+  },
+  container: {
+    flex: 1,
+    flexDirection: "column",
+  },
   image: {
-    width: 150,
-    height: 150,
+    width: 100,
+    height: 100,
   },
   topContainer: {
     flex: 1,
-    maxHeight: "45%",
+    maxHeight: 250,
   },
   innerContainer: {
     flex: 1,
@@ -113,19 +127,12 @@ const styles = StyleSheet.create({
   },
   virtualizeListContainer: {
     flex: 1,
-    maxHeight: "55%",
     width: "100%",
   },
   textTitle: {
     marginTop: 15,
     color: Colors.dark.basicText,
     fontSize: 25,
-  },
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    width: "100%",
-    height: "100%",
   },
 });
 
