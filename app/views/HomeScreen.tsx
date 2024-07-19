@@ -19,10 +19,15 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const { recentAchievements, fetchRecentAchievements } = useGameStore();
 
   useEffect(() => {
+    navigation.addListener("beforeRemove", (e) => {
+      e.preventDefault();
+      return;
+    });
+
     fetchProfile();
     fetchUserCompletionProgress();
     fetchRecentAchievements();
-  }, []);
+  }, [navigation]);
 
   const getItem = (
     _data: unknown,

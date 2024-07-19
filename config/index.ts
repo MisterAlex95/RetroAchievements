@@ -9,5 +9,6 @@ const debugStyle = {
 
 export const config = {
   ENABLE_FIXTURE: false,
+  ENABLE_REQUEST_LOG: false,
   debugStyle,
 };

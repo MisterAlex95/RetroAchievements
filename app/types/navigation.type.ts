@@ -2,6 +2,7 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import type { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
 export type BottomTabParamList = {
+  Default: undefined;
   Home: undefined;
   Login: undefined;
   Setting: undefined;

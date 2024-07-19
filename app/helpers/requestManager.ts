@@ -15,6 +15,12 @@ export default class RequestManager {
 
   private constructor() {}
 
+  private log(str: string) {
+    if (config.ENABLE_REQUEST_LOG) {
+      console.log(str);
+    }
+  }
+
   public static getInstance() {
     if (!RequestManager.instance) {
       RequestManager.instance = new RequestManager();
@@ -33,7 +39,7 @@ export default class RequestManager {
       } else throw new Error(`Fixture file not found for ${requestConfig.url}`);
     }
 
-    console.info(
+    this.log(
       `Fetching ${requestConfig.method} request for ${requestConfig.url}`,
     );
 
@@ -49,7 +55,7 @@ export default class RequestManager {
     const requestKey = `${config.method || "GET"}:${config.url}`;
 
     if (this.requests.has(requestKey)) {
-      console.info(`Request for ${config.url} is already in progress.`);
+      this.log(`Request for ${config.url} is already in progress.`);
       return this.requests.get(requestKey);
     }
 

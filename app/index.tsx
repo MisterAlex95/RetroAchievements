@@ -5,49 +5,61 @@ import { Colors } from "./constants/Colors";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SettingsScreen from "./views/SettingsScreen";
 import { BottomTabParamList } from "./types";
-import { StatusBar, Button } from "react-native";
+import { StatusBar } from "react-native";
 import GameScreen from "./views/GameScreen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-const Tab = createBottomTabNavigator<BottomTabParamList>();
+const Stack = createNativeStackNavigator<BottomTabParamList>();
+const HomeStack = createNativeStackNavigator<BottomTabParamList>();
+const DefaultTab = createBottomTabNavigator<BottomTabParamList>();
+
+function HomeStackScreen() {
+  return (
+    <HomeStack.Navigator
+      screenOptions={{
+        header: () => undefined,
+        contentStyle: { backgroundColor: Colors.dark.background },
+      }}
+    >
+      <HomeStack.Screen name="Home" component={HomeScreen} />
+      <HomeStack.Screen name="Game" component={GameScreen} />
+    </HomeStack.Navigator>
+  );
+}
+
+function DefaultTabScreen() {
+  return (
+    <DefaultTab.Navigator
+      sceneContainerStyle={{ backgroundColor: Colors.dark.background }}
+      screenOptions={{
+        header: () => undefined,
+        tabBarLabelStyle: {
+          color: Colors.dark.basicText,
+        },
+        tabBarItemStyle: {
+          backgroundColor: Colors.dark.menuBackgound,
+        },
+      }}
+    >
+      <DefaultTab.Screen name="Home" component={HomeStackScreen} />
+      <DefaultTab.Screen name="Setting" component={SettingsScreen} />
+    </DefaultTab.Navigator>
+  );
+}
 
 export default function App() {
   return (
     <NavigationContainer independent={true}>
       <StatusBar hidden={true} />
-      <Tab.Navigator
-        sceneContainerStyle={{ backgroundColor: Colors.dark.background }}
+      <Stack.Navigator
         screenOptions={{
           header: () => undefined,
-          tabBarLabelStyle: {
-            color: Colors.dark.basicText,
-          },
-          tabBarItemStyle: {
-            backgroundColor: Colors.dark.menuBackgound,
-          },
+          contentStyle: { backgroundColor: Colors.dark.background },
         }}
       >
-        <Tab.Screen
-          name="Login"
-          options={{
-            // Hide the login button
-            tabBarButton: (props) => undefined,
-            tabBarItemStyle: {
-              backgroundColor: Colors.dark.background,
-            },
-            tabBarStyle: {
-              backgroundColor: Colors.dark.background,
-            },
-          }}
-          component={LoginScreen}
-        />
-        <Tab.Screen
-          name="Game"
-          options={{ tabBarButton: (props) => undefined }}
-          component={GameScreen}
-        />
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Setting" component={SettingsScreen} />
-      </Tab.Navigator>
+        <Stack.Screen name="Login" options={{}} component={LoginScreen} />
+        <Stack.Screen name="Default" component={DefaultTabScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

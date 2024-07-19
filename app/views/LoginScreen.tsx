@@ -26,14 +26,14 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   useEffect(() => {
     const autoLogin = async () => {
       if (await tryLogin()) {
-        navigation.navigate("Home");
+        navigation.navigate("Default");
       }
     };
 
     autoLogin().catch((err) => console.error(err));
 
     if (isLoggedIn()) {
-      navigation.navigate("Home");
+      navigation.navigate("Default");
     }
   }, [isLoggedIn(), navigation]);
 
@@ -48,12 +48,10 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
       style={styles.container}
     >
       <ScrollView scrollEnabled style={styles.scrollViewContainer}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            source={require("../../assets/images/ra-icon.png")}
-          />
-        </View>
+        <Image
+          style={styles.image}
+          source={require("../../assets/images/ra-icon.png")}
+        />
         <View style={styles.inputsContainer}>
           <View>
             <Text style={styles.label}>Username</Text>
@@ -89,7 +87,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
               value={remember}
               onValueChange={setRemember}
               style={styles.checkbox}
-              tintColors={{ true: Colors.dark.secondary, false: "black" }}
+              tintColors={{ true: Colors.dark.basicText, false: "black" }}
             />
             <Text style={styles.label}>Remember me</Text>
           </View>
@@ -111,7 +109,7 @@ const styles = generateStyleSheet(
       flex: 1,
       marginTop: 50,
       alignItems: "center",
-      backgroundColor: Colors.dark["base-100"],
+      backgroundColor: Colors.dark.background,
     },
     scrollViewContainer: {
       flex: 1,
@@ -119,12 +117,6 @@ const styles = generateStyleSheet(
     image: {
       maxWidth: 250,
       resizeMode: "contain",
-      backgroundColor: "#161616",
-      margin: 10,
-      borderRadius: 50,
-    },
-    imageContainer: {
-      backgroundColor: "#161616",
       margin: 10,
       borderRadius: 50,
     },
@@ -138,19 +130,20 @@ const styles = generateStyleSheet(
       padding: 1,
       paddingHorizontal: 15,
       marginVertical: 5,
-      color: Colors.dark.neutral,
+      borderColor: Colors.dark.basicText,
+      color: Colors.dark.basicText,
     },
     helpContainer: {
       flexDirection: "row",
     },
     helpText: {
       fontSize: 12,
-      color: Colors.dark.neutral,
+      color: Colors.dark.basicText,
     },
     helpTextUrl: {
       fontSize: 12,
       textDecorationLine: "underline",
-      color: Colors.dark.neutral,
+      color: Colors.dark.basicText,
     },
     urlButton: {
       fontSize: 12,
@@ -162,12 +155,12 @@ const styles = generateStyleSheet(
     },
     checkbox: {
       alignSelf: "center",
-      color: Colors.dark.secondary,
+      color: Colors.dark.basicText,
     },
     label: {
       fontSize: 15,
       fontWeight: "bold",
-      color: Colors.dark.neutral,
+      color: Colors.dark.basicText,
     },
   },
   config.debugStyle.views.LoginScreen,
