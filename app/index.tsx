@@ -8,6 +8,7 @@ import { BottomTabParamList } from "./types";
 import { StatusBar } from "react-native";
 import GameScreen from "./views/GameScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Stack = createNativeStackNavigator<BottomTabParamList>();
 const HomeStack = createNativeStackNavigator<BottomTabParamList>();
@@ -31,7 +32,7 @@ function DefaultTabScreen() {
   return (
     <DefaultTab.Navigator
       sceneContainerStyle={{ backgroundColor: Colors.dark.background }}
-      screenOptions={{
+      screenOptions={({ route }) => ({
         header: () => undefined,
         tabBarLabelStyle: {
           color: Colors.dark.basicText,
@@ -39,7 +40,21 @@ function DefaultTabScreen() {
         tabBarItemStyle: {
           backgroundColor: Colors.dark.menuBackgound,
         },
-      }}
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName: any = "";
+
+          if (route.name === "Home") {
+            iconName = focused
+              ? "home"
+              : "home-outline";
+          } else if (route.name === "Setting") {
+            iconName = focused ? "cog" : "cog-outline";
+          }
+
+          // You can return any component that you like here!
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
     >
       <DefaultTab.Screen name="Home" component={HomeStackScreen} />
       <DefaultTab.Screen name="Setting" component={SettingsScreen} />
