@@ -4,7 +4,6 @@ class Logger {
 
   private constructor() {
     this.logLevel = LogLevel.INFO;
-    this.journal = [];
   }
 
   public static getInstance(): Logger {
