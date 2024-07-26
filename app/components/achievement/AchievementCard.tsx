@@ -1,8 +1,11 @@
 import { View, StyleSheet, Image, Text } from "react-native";
-import { Achievement } from "@/app/types";
 import { Colors } from "@/app/constants/Colors";
+import { Achievement } from "@/app/types/common.type";
 
-export default (props: { data: Achievement }) => {
+export default (props: { data?: Achievement }) => {
+  if (!props.data) return <></>;
+
+  console.log(props.data);
   return (
     <View style={styles.container}>
       <Image
@@ -10,7 +13,7 @@ export default (props: { data: Achievement }) => {
           uri:
             "https://retroachievements.org/Badge/" +
             props.data.BadgeName +
-            "_lock.png",
+            (props.data.DateEarned ? ".png" : "_lock.png"),
         }}
         style={styles.image}
       />

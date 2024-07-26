@@ -1,42 +1,14 @@
 import { create } from "zustand";
-import { AuthObject, buildAuthorization } from "@retroachievements/api";
+import { buildAuthorization } from "@retroachievements/api";
 import * as Keychain from "react-native-keychain";
 
 import RequestManager from "@/app/helpers/requestManager";
 import {
-  UserGameProgression,
   UserCompletionProgress,
+  GameInfoAndUserProgress,
   UserProfile,
 } from "@/app/types/user.type";
-
-interface UserState {
-  profile?: UserProfile;
-  username?: string;
-  authorization?: AuthObject;
-
-  userCompletionProgress?: UserCompletionProgress;
-  isFetchingUserCompletionProgress: boolean;
-
-  userProgressPerGame: Record<string, UserGameProgression>;
-  
-  isFetchingUserProgressPerGame: boolean;
-}
-
-interface UserAction {
-  setUsername: (username: string) => void;
-  isLoggedIn: () => boolean;
-
-  fetchProfile: () => Promise<void>;
-  fetchProfileByName: (name: string) => Promise<void>;
-  fetchUserCompletionProgress: () => Promise<void>;
-  fetchUserProgressPerGame: (gameIds: string[]) => Promise<void>;
-
-  tryLogin: () => Promise<boolean>;
-  login: (apiKey: string, remember?: boolean) => Promise<void>;
-  logout: () => Promise<void>;
-}
-
-type UserStore = UserState & UserAction;
+import { UserStore } from "./user";
 
 export const useUserStore = create<UserStore>()((set, get) => {
   return {
@@ -47,6 +19,8 @@ export const useUserStore = create<UserStore>()((set, get) => {
 
     isFetchingUserCompletionProgress: false,
     userCompletionProgress: undefined,
+    isFetchingGameInfoAndUserProgress: false,
+    gameInfoAndUserProgress: undefined,
 
     isFetchingUserProgressPerGame: false,
     userProgressPerGame: {},
@@ -133,6 +107,32 @@ export const useUserStore = create<UserStore>()((set, get) => {
       }
     },
 
+    fetchGameInfoAndUserProgress: async (gameId: string) => {
+      const { authorization } = get();
+      set({ isFetchingGameInfoAndUserProgress: true });
+
+      if (authorization) {
+        try {
+          const answer =
+            await RequestManager.getInstance().request<GameInfoAndUserProgress>(
+              {
+                url: `https://retroachievements.org/API/API_GetGameInfoAndUserProgress.php?z=${authorization.username}&y=${authorization.webApiKey}&u=${authorization.username}&g=${gameId}`,
+                method: "GET",
+              },
+            );
+
+          if (answer) {
+            set({
+              gameInfoAndUserProgress: answer.data,
+              isFetchingGameInfoAndUserProgress: false,
+            });
+          }
+        } catch (err) {
+          if (err instanceof Error) console.error(err.message);
+        }
+        set({ isFetchingGameInfoAndUserProgress: false });
+      }
+    },
     fetchUserCompletionProgress: async (offset: number = 0) => {
       const { authorization, fetchUserProgressPerGame } = get();
       set({ isFetchingUserCompletionProgress: true });

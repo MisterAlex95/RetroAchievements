@@ -7,7 +7,7 @@ import {
   ImageBackground,
   VirtualizedList,
 } from "react-native";
-import { Achievement, GameExtended, GameTabProps } from "../types";
+import { Achievement, GameTabProps } from "../types";
 import { Colors } from "../constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useGameStore, useUserStore } from "../stores";
@@ -15,7 +15,12 @@ import CircularProgress from "react-native-circular-progress-indicator";
 import AchievementCard from "../components/achievement/AchievementCard";
 
 const GameScreen = ({ navigation, route }: GameTabProps) => {
-  const { userCompletionProgress, userProgressPerGame } = useUserStore();
+  const {
+    userCompletionProgress,
+    userProgressPerGame,
+    gameInfoAndUserProgress,
+    fetchGameInfoAndUserProgress,
+  } = useUserStore();
   const { gameExtended, fetchGameExtended } = useGameStore();
 
   const currentGame = userCompletionProgress?.Results.find(
@@ -40,6 +45,7 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
     });
 
     fetchGameExtended(route.params.gameId);
+    fetchGameInfoAndUserProgress(route.params.gameId);
   }, [navigation]);
 
   if (!currentGame || !gameExtended) return <></>;
@@ -88,7 +94,11 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
       <VirtualizedList
         style={styles.virtualizeListContainer}
         initialNumToRender={4}
-        renderItem={(_) => <AchievementCard data={_.item} />}
+        renderItem={(_) => (
+          <AchievementCard
+            data={gameInfoAndUserProgress?.Achievements[_.item.ID]}
+          />
+        )}
         keyExtractor={(item, index) => index.toString()}
         getItemCount={getItemCount}
         getItem={getItem}
