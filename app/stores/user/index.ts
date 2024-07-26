@@ -16,6 +16,7 @@ export const useUserStore = create<UserStore>()((set, get) => {
     profile: undefined,
     username: undefined,
     authorization: undefined,
+    loading: false,
 
     isFetchingUserCompletionProgress: false,
     userCompletionProgress: undefined,
@@ -26,6 +27,9 @@ export const useUserStore = create<UserStore>()((set, get) => {
     userProgressPerGame: {},
 
     // Actions
+    isLoading() {
+      return get().loading;
+    },
     setUsername: (username) => {
       set({ username });
     },
@@ -39,6 +43,7 @@ export const useUserStore = create<UserStore>()((set, get) => {
     },
     tryLogin: async () => {
       const { login, username } = get();
+      set({ loading: true });
 
       try {
         // Retrieve the credentials
@@ -48,15 +53,18 @@ export const useUserStore = create<UserStore>()((set, get) => {
             set({ username: credentials.username });
           }
           await login(credentials.password);
+          set({ loading: false });
           return true;
         }
       } catch (error) {
         console.error("Keychain couldn't be accessed!", error);
       }
+      set({ loading: false });
       return false;
     },
     login: async (apiKey: string, remember?: boolean) => {
       const { username } = get();
+      set({ loading: true });
 
       if (username && apiKey) {
         try {
@@ -72,6 +80,7 @@ export const useUserStore = create<UserStore>()((set, get) => {
         } catch (err) {
           if (err instanceof Error) console.error(err.message);
         }
+        set({ loading: false });
       }
     },
 

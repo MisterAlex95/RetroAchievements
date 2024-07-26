@@ -7,6 +7,7 @@ import {
   Image,
   Platform,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import CheckBox from "@react-native-community/checkbox";
 import { useUserStore } from "../stores/";
@@ -19,7 +20,8 @@ import { Colors } from "../constants/Colors";
 import { LoginScreenProps } from "../types";
 
 export default function LoginScreen({ navigation }: LoginScreenProps) {
-  const { login, username, setUsername, isLoggedIn, tryLogin } = useUserStore();
+  const { login, username, setUsername, isLoggedIn, tryLogin, isLoading } =
+    useUserStore();
   const [apiKey, setApiKey] = useState("");
   const [remember, setRemember] = useState(false);
 
@@ -40,6 +42,16 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   const handleLogin = async () => {
     await login(apiKey, remember);
   };
+
+  if (isLoading()) {
+    return (
+      <View
+        style={{ flex: 1, justifyContent: "center", alignContent: "center" }}
+      >
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <KeyboardAvoidingView

@@ -8,6 +8,7 @@ export interface UserState {
   profile?: UserProfile;
   username?: string;
   authorization?: AuthObject;
+  loading: boolean;
 
   userCompletionProgress?: UserCompletionProgress;
   isFetchingUserCompletionProgress: boolean;
@@ -23,6 +24,7 @@ export interface UserState {
 export interface UserAction {
   setUsername: (username: string) => void;
   isLoggedIn: () => boolean;
+  isLoading: () => boolean;
 
   fetchProfile: () => Promise<void>;
   fetchProfileByName: (name: string) => Promise<void>;
