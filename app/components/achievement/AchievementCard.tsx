@@ -5,7 +5,6 @@ import { Achievement } from "@/app/types/common.type";
 export default (props: { data?: Achievement }) => {
   if (!props.data) return <></>;
 
-  console.log(props.data);
   return (
     <View style={styles.container}>
       <Image
