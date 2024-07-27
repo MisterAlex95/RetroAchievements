@@ -7,9 +7,7 @@ import {
   GameInfoAndUserProgress,
   UserProfile,
   UserCompletionProgress,
-  UserCompletionProgressResult,
   UserProgressPerGame,
-  UserProgressPerGameAnswer,
   GetUserWantToPlayList,
 } from "@/app/types/user.type";
 import { UserStore } from "./user.store.d";
@@ -117,15 +115,15 @@ export const useGetUserWantToPlayListStore = createStore<GetUserWantToPlayList>(
       return;
     }
 
-    const answer = await RequestManager.getInstance().request<GetUserWantToPlayList>({
-      url: `https://retroachievements.org/API/API_GetUserWantToPlayList.php?z=${authorization.username}&y=${authorization.webApiKey}&u=${name}`,
-      method: "GET",
-    });
+    const answer =
+      await RequestManager.getInstance().request<GetUserWantToPlayList>({
+        url: `https://retroachievements.org/API/API_GetUserWantToPlayList.php?z=${authorization.username}&y=${authorization.webApiKey}&u=${name}`,
+        method: "GET",
+      });
 
     return answer?.data;
   },
 );
-
 
 export const useGetUserProfileStore = createStore<UserProfile>(
   "user-profile",
@@ -179,5 +177,5 @@ export const useUserCompletionProgressStore =
         });
 
       return answer?.data;
-    }
+    },
   );

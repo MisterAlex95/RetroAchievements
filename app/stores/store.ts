@@ -7,7 +7,6 @@ export type State<T> = {
   error: string | null;
   cacheKey: string | null;
   fetchData: (value?: any) => Promise<void>;
-  clearCache: () => void;
 };
 
 export const createStore = <T = any>(
@@ -26,30 +25,30 @@ export const createStore = <T = any>(
         throw new Error("cacheKey is not set");
       }
 
+      const specificCacheKey =
+        value !== undefined ? `${cacheKey}-${value}` : cacheKey;
+
       set({ isFetching: true, error: null });
 
       try {
-        const cachedData = await getItem<T>(cacheKey);
+        const cachedData = await getItem<T>(specificCacheKey);
         if (cachedData) {
-          set({ data: cachedData, isFetching: false, cacheKey });
+          set({
+            data: cachedData,
+            isFetching: false,
+            cacheKey: specificCacheKey,
+          });
           return;
         }
 
         const data = await apiCall(value);
-        set({ data, isFetching: false, cacheKey });
-        await setItem(cacheKey, data, ttl);
+        set({ data, isFetching: false, cacheKey: specificCacheKey });
+        await setItem(specificCacheKey, data, ttl);
       } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);
           set({ error: error.message, isFetching: false });
         }
-      }
-    },
-    clearCache: async () => {
-      const cacheKey = get().cacheKey;
-      if (cacheKey) {
-        await removeItem(cacheKey);
-        set({ data: null, cacheKey: null });
       }
     },
   }));

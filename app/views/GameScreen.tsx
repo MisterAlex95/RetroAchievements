@@ -30,16 +30,6 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
   const { data: userCompletionProgress } = useUserCompletionProgressStore();
   const { gameExtended, fetchGameExtended } = useGameStore();
 
-  const currentGame = userCompletionProgress?.Results.find(
-    (r) => r.GameID === route.params.gameId,
-  );
-
-  if (!userProgressPerGame || !userProgressPerGame[route.params.gameId])
-    return <></>;
-  const userProgression = userProgressPerGame[route.params.gameId];
-
-  if (!currentGame || !userProgression) return <></>;
-
   useEffect(() => {
     navigation.setOptions({
       header: () => (
@@ -60,6 +50,14 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
     fetchGameInfoAndUserProgress(route.params.gameId);
   }, [navigation]);
 
+  const currentGame = userCompletionProgress?.Results.find(
+    (r) => r.GameID === route.params.gameId,
+  );
+
+  if (!userProgressPerGame || !userProgressPerGame[route.params.gameId])
+    return <></>;
+  const userProgression = userProgressPerGame[route.params.gameId];
+  if (!userProgression) return <></>;
   if (!currentGame || !gameExtended) return <></>;
 
   const getItem = (_data: unknown, index: number): Achievement => {
