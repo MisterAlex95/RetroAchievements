@@ -36,7 +36,9 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
         <View style={styles.headerContainer}>
           <View style={styles.headerButton}>
             <Ionicons
-              onPress={() => navigation.navigate("Home")}
+              onPress={() => {
+                navigation.navigate("Home");
+              }}
               name="chevron-back"
               size={32}
               color={Colors.dark.basicText}
