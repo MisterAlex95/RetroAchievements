@@ -24,6 +24,14 @@ export interface UserCompletionProgress {
   Total: number;
 }
 
+export type UserProgressPerGameAnswer = {
+  Results: GetUserProgress[];
+  Count: number;
+  Total: number;
+};
+
+export type UserProgressPerGame = Record<string, GetUserProgress>;
+
 export interface UserCompletionProgressResult {
   ConsoleID: number;
   ConsoleName: string;
@@ -38,7 +46,7 @@ export interface UserCompletionProgressResult {
   Title: string;
 }
 
-export interface UserGameProgression {
+export interface GetUserProgress {
   NumPossibleAchievements: number;
   PossibleScore: number;
   NumAchieved: number;

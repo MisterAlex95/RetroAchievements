@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { useUserStore } from "../user";
+import { useUserStore } from "./user.store";
 import RequestManager from "@/app/helpers/requestManager";
 import { GameExtended, RecentAchievements } from "@/app/types/game.type";
 

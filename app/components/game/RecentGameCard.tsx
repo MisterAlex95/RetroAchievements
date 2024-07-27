@@ -8,14 +8,14 @@ import {
 import { UserCompletionProgressResult } from "../../types/user.type";
 import { Colors } from "../../constants/Colors";
 import CircularProgress from "react-native-circular-progress-indicator";
-import { useUserStore } from "../../stores";
+import { useUserProgressPerGameStore } from "../../stores";
 
 export default (props: {
   data?: UserCompletionProgressResult;
   goToGamePage: () => void;
 }) => {
-  const { userProgressPerGame } = useUserStore();
-  if (!props.data) return;
+  const { data: userProgessPerGame } = useUserProgressPerGameStore();
+  if (!props.data || !userProgessPerGame) return;
 
   const smallerPlatformName = (platformName: string) => {
     switch (platformName) {
@@ -31,6 +31,9 @@ export default (props: {
         return platformName.match(/\b(\w)/g)?.join("");
     }
   };
+
+  const game = userProgessPerGame[props.data?.GameID];
+  if (!game) return;
 
   return (
     <TouchableOpacity style={styles.container} onPress={props.goToGamePage}>
@@ -53,39 +56,24 @@ export default (props: {
         <View style={{ flex: 1, flexDirection: "row" }}>
           <View>
             <Text style={{ color: Colors.dark.primary }}>
-              <Text style={{ fontWeight: "bold" }}>
-                {userProgressPerGame[props.data.GameID]?.ScoreAchieved}
-              </Text>{" "}
+              <Text style={{ fontWeight: "bold" }}>{game.ScoreAchieved}</Text>{" "}
               of{" "}
-              <Text style={{ fontWeight: "bold" }}>
-                {userProgressPerGame[props.data.GameID]?.PossibleScore}
-              </Text>{" "}
+              <Text style={{ fontWeight: "bold" }}>{game.PossibleScore}</Text>{" "}
               points
             </Text>
             <Text style={{ color: Colors.dark.primary }}>
+              <Text style={{ fontWeight: "bold" }}>{game.NumAchieved}</Text> of{" "}
               <Text style={{ fontWeight: "bold" }}>
-                {userProgressPerGame[props.data.GameID]?.NumAchieved}
-              </Text>{" "}
-              of{" "}
-              <Text style={{ fontWeight: "bold" }}>
-                {
-                  userProgressPerGame[props.data.GameID]
-                    ?.NumPossibleAchievements
-                }
+                {game.NumPossibleAchievements}
               </Text>{" "}
               achievements
             </Text>
           </View>
           <View style={{ flex: 1 }}></View>
-          {userProgressPerGame[props.data.GameID] && (
+          {game && (
             <CircularProgress
               radius={25}
-              value={
-                (userProgressPerGame[props.data.GameID]?.NumAchieved /
-                  userProgressPerGame[props.data.GameID]
-                    ?.NumPossibleAchievements) *
-                100
-              }
+              value={(game.NumAchieved / game.NumPossibleAchievements) * 100}
               valueSuffix={"%"}
               progressValueColor="#ffff"
               activeStrokeColor={Colors.dark.primary}

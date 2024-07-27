@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { useUserStore } from "../user";
+import { useUserStore } from "./user.store";
 import RequestManager from "@/app/helpers/requestManager";
 import { AchievementOfTheWeek } from "@/app/types";
 

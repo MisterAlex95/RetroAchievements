@@ -1,6 +1,12 @@
 import React, { useEffect } from "react";
 import { View, VirtualizedList, StyleSheet, Text } from "react-native";
-import { useUserStore, useGameStore } from "../stores";
+import {
+  useUserStore,
+  useGameStore,
+  useUserCompletionProgressStore,
+  useGetUserProfileStore,
+  useUserProgressPerGameStore,
+} from "../stores";
 import UserCard from "../components/user/UserCard";
 import RecentAchivement from "../components/achievement/RecentAchivementBar";
 import RecentGameCard from "../components/game/RecentGameCard";
@@ -8,15 +14,15 @@ import RecentGameCard from "../components/game/RecentGameCard";
 import type { HomeScreenProps, UserCompletionProgressResult } from "../types/";
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
-  const {
-    fetchProfile,
-    profile,
-    userCompletionProgress,
-    fetchUserCompletionProgress,
-    isFetchingUserCompletionProgress,
-    isFetchingUserProgressPerGame,
-  } = useUserStore();
+  const { username } = useUserStore();
+  const { fetchData: fetchingUserProgressPerGame, isFetching: isFetchingUserProgressPerGame } = useUserProgressPerGameStore();
+  const { fetchData: fetchProfile, data: profile } = useGetUserProfileStore();
   const { recentAchievements, fetchRecentAchievements } = useGameStore();
+  const {
+    fetchData: fetchUserCompletionProgress,
+    data: userCompletionProgress,
+    isFetching: isFetchingUserCompletionProgress,
+  } = useUserCompletionProgressStore();
 
   useEffect(() => {
     navigation.addListener("beforeRemove", (e) => {
@@ -24,10 +30,17 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
       return;
     });
 
-    fetchProfile();
+    fetchProfile(username);
     fetchUserCompletionProgress();
     fetchRecentAchievements();
   }, [navigation]);
+
+  useEffect(() => {
+    if (userCompletionProgress && userCompletionProgress.Results.length > 0) {
+      const gameIds = userCompletionProgress.Results.map((r) => r.GameID);
+      fetchingUserProgressPerGame(gameIds);
+    }
+  }, [userCompletionProgress]);
 
   const getItem = (
     _data: unknown,

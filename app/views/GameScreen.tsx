@@ -10,23 +10,35 @@ import {
 import { Achievement, GameTabProps } from "../types";
 import { Colors } from "../constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useGameStore, useUserStore } from "../stores";
+import {
+  useGameInfoAndUserProgressStore,
+  useGameStore,
+  useUserProgressPerGameStore,
+  useUserCompletionProgressStore,
+} from "../stores";
 import CircularProgress from "react-native-circular-progress-indicator";
 import AchievementCard from "../components/achievement/AchievementCard";
 
 const GameScreen = ({ navigation, route }: GameTabProps) => {
+  const { data: userProgressPerGame } = useUserProgressPerGameStore();
+
   const {
-    userCompletionProgress,
-    userProgressPerGame,
-    gameInfoAndUserProgress,
-    fetchGameInfoAndUserProgress,
-  } = useUserStore();
+    data: gameInfoAndUserProgress,
+    fetchData: fetchGameInfoAndUserProgress,
+  } = useGameInfoAndUserProgressStore();
+
+  const { data: userCompletionProgress } = useUserCompletionProgressStore();
   const { gameExtended, fetchGameExtended } = useGameStore();
 
   const currentGame = userCompletionProgress?.Results.find(
     (r) => r.GameID === route.params.gameId,
   );
+
+  if (!userProgressPerGame || !userProgressPerGame[route.params.gameId])
+    return <></>;
   const userProgression = userProgressPerGame[route.params.gameId];
+
+  if (!currentGame || !userProgression) return <></>;
 
   useEffect(() => {
     navigation.setOptions({
