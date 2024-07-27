@@ -88,3 +88,19 @@ export interface GameInfoAndUserProgress {
   HighestAwardKind: string;
   HighestAwardDate: string;
 }
+
+export interface GetUserWantToPlayList {
+  Count: number;
+  Total: number;
+  Results: WantToPlayGame[];
+}
+
+export interface WantToPlayGame {
+  GameID: number;
+  Title: string;
+  ImageIcon: string;
+  ConsoleID: number;
+  ConsoleName: string;
+  PointsTotal: number;
+  AchievementsPublished: number;
+}

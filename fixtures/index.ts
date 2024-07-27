@@ -5,6 +5,7 @@ import API_GetUserRecentAchievements from "./API_GetUserRecentAchievements.json"
 import API_GetUserProgress from "./API_GetUserProgress.json";
 import API_GetGameExtended from "./API_GetGameExtended.json";
 import API_GetGameInfoAndUserProgress from "./API_GetGameInfoAndUserProgress.json";
+import API_GetUserWantToPlayList from "./API_GetUserWantToPlayList.json";
 
 export const getFixture = <T = any>(fileName: string): T => {
   const dic: Record<string, any> = {
@@ -14,7 +15,8 @@ export const getFixture = <T = any>(fileName: string): T => {
     API_GetAchievementOfTheWeek,
     API_GetUserRecentAchievements,
     API_GetGameExtended,
-    API_GetGameInfoAndUserProgress
+    API_GetGameInfoAndUserProgress,
+    API_GetUserWantToPlayList,
   };
 
   return (dic[fileName] ?? undefined) as T;

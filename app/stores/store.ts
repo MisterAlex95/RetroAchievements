@@ -13,7 +13,7 @@ export type State<T> = {
 export const createStore = <T = any>(
   cacheKey: string,
   apiCall: (value?: any) => Promise<T>,
-  ttl: number = 60000,
+  ttl: number = 10 * 60 * 1000, // 10 minutes
 ) =>
   create<State<T>>((set, get) => ({
     data: null,
@@ -40,6 +40,7 @@ export const createStore = <T = any>(
         await setItem(cacheKey, data, ttl);
       } catch (error) {
         if (error instanceof Error) {
+          console.error(error.message);
           set({ error: error.message, isFetching: false });
         }
       }

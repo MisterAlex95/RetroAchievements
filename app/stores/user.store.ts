@@ -10,6 +10,7 @@ import {
   UserCompletionProgressResult,
   UserProgressPerGame,
   UserProgressPerGameAnswer,
+  GetUserWantToPlayList,
 } from "@/app/types/user.type";
 import { UserStore } from "./user.store.d";
 import { createStore } from "./store";
@@ -106,6 +107,25 @@ export const useUserProgressPerGameStore = createStore<UserProgressPerGame>(
     return data;
   },
 );
+
+// Not implemented yet
+export const useGetUserWantToPlayListStore = createStore<GetUserWantToPlayList>(
+  "user-want-to-play-list",
+  async (name: string) => {
+    const { authorization } = useUserStore.getState();
+    if (!authorization) {
+      return;
+    }
+
+    const answer = await RequestManager.getInstance().request<GetUserWantToPlayList>({
+      url: `https://retroachievements.org/API/API_GetUserWantToPlayList.php?z=${authorization.username}&y=${authorization.webApiKey}&u=${name}`,
+      method: "GET",
+    });
+
+    return answer?.data;
+  },
+);
+
 
 export const useGetUserProfileStore = createStore<UserProfile>(
   "user-profile",
