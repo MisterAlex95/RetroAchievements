@@ -11,6 +11,7 @@ import {
   UserCompletionProgressResult,
   useUserProgressPerGameStore,
 } from "../../stores";
+import GamePicture from "../common/GamePicture";
 
 export default (props: {
   data?: UserCompletionProgressResult;
@@ -39,11 +40,12 @@ export default (props: {
 
   return (
     <TouchableOpacity style={styles.container} onPress={props.goToGamePage}>
-      <ImageBackground
-        source={{
-          uri: "https://retroachievements.org" + props.data.ImageIcon,
-        }}
-        style={styles.image}
+      <GamePicture
+        imageUrl={props.data.ImageIcon}
+        width={100}
+        height={100}
+        borderRadius={5}
+        asBackground
       >
         <View style={{ flex: 1 }}></View>
         <View style={styles.platformContainer}>
@@ -51,7 +53,7 @@ export default (props: {
             {smallerPlatformName(props.data.ConsoleName)}
           </Text>
         </View>
-      </ImageBackground>
+      </GamePicture>
 
       <View style={{ flex: 1, marginHorizontal: 10 }}>
         <Text style={styles.gameTitle}>{props.data.Title}</Text>
@@ -95,11 +97,6 @@ export default (props: {
 };
 
 const styles = StyleSheet.create({
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 5,
-  },
   container: {
     flex: 1,
     flexDirection: "row",

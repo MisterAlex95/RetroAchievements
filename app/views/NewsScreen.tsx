@@ -1,19 +1,21 @@
-import React from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import React, { useEffect } from "react";
+import { View, StyleSheet, Text } from "react-native";
 import { NewsTabProps } from "../types";
-import { useUserStore } from "../stores";
+import AchievementOfTheWeek from "../components/achievement/AchievementOfTheWeek";
+import { useAchievementOfTheWeek } from "../stores/event/useAchievementOfTheWeek.store";
 
 const NewsScreen = ({ navigation }: NewsTabProps) => {
-  const { logout } = useUserStore();
+  const { data: achievementOfTheWeek, fetchData: fetchAchievementOfTheWeek } =
+    useAchievementOfTheWeek();
 
-  const handleLogout = () => {
-    logout();
-    navigation.navigate("Login");
-  };
+  useEffect(() => {
+    fetchAchievementOfTheWeek();
+  }, []);
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>News!</Text>
+      <AchievementOfTheWeek data={achievementOfTheWeek} />
     </View>
   );
 };

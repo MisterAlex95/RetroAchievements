@@ -1,12 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  Image,
-  Text,
-  ImageBackground,
-  VirtualizedList,
-} from "react-native";
+import { View, StyleSheet, Image, Text, VirtualizedList } from "react-native";
 import { GameTabProps } from "../types";
 import { Colors } from "../constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -19,6 +12,7 @@ import CircularProgress from "react-native-circular-progress-indicator";
 import AchievementCard from "../components/achievement/AchievementCard";
 import { useGameExtendedStore } from "../stores/game/useGameExtended.store";
 import { Achievement } from "../types/common.type";
+import GamePicture from "../components/common/GamePicture";
 
 const GameScreen = ({ navigation, route }: GameTabProps) => {
   const { data: userProgressPerGame } = useUserProgressPerGameStore();
@@ -75,20 +69,21 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        style={styles.topContainer}
-        imageStyle={{ resizeMode: "cover" }}
+      <GamePicture
+        height={250}
+        width={"100%"}
+        borderRadius={0}
+        resizeMode="cover"
         blurRadius={1}
-        source={{
-          uri: "https://retroachievements.org" + currentGame.ImageIcon,
-        }}
+        asBackground
+        style={styles.topContainer}
+        imageUrl={currentGame.ImageIcon}
       >
         <View style={styles.innerContainer}>
-          <Image
-            source={{
-              uri: "https://retroachievements.org" + currentGame.ImageIcon,
-            }}
-            style={styles.image}
+          <GamePicture
+            imageUrl={currentGame.ImageIcon}
+            width={100}
+            height={100}
           />
           <Text style={styles.textTitle}>{currentGame.Title}</Text>
           <CircularProgress
@@ -104,7 +99,7 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
             activeStrokeSecondaryColor={Colors.dark.secondary}
           />
         </View>
-      </ImageBackground>
+      </GamePicture>
       <VirtualizedList
         style={styles.virtualizeListContainer}
         initialNumToRender={4}
@@ -133,10 +128,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-  },
-  image: {
-    width: 100,
-    height: 100,
   },
   topContainer: {
     flex: 1,

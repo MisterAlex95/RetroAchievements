@@ -49,8 +49,8 @@ export interface Unlock {
 }
 
 export const useAchievementOfTheWeek = createStore<AchievementOfTheWeek>(
-  "game-extended",
-  async (gameId: number) => {
+  "achievement-of-the-week",
+  async () => {
     const { authorization } = useUserStore.getState();
     if (!authorization) {
       return;

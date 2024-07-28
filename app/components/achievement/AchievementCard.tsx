@@ -1,22 +1,20 @@
 import { View, StyleSheet, Image, Text } from "react-native";
 import { Colors } from "@/app/constants/Colors";
 import { Achievement } from "@/app/types/common.type";
+import AchievementPicture from "../common/AchievementPicture";
 
 export default (props: { data?: Achievement }) => {
   if (!props.data) return <></>;
 
   return (
     <View style={styles.container}>
-      <Image
-        source={{
-          uri:
-            "https://retroachievements.org/Badge/" +
-            props.data.BadgeName +
-            (props.data.DateEarned ? ".png" : "_lock.png"),
-        }}
-        style={styles.image}
+      <AchievementPicture
+        imageUrl={props.data.BadgeName + (props.data.DateEarned ? ".png" : "_lock.png")}
+        width={100}
+        needPrefix
+        height={100}
+        borderRadius={5}
       />
-
       <View style={{ flex: 1, marginHorizontal: 10 }}>
         <Text style={styles.gameTitle}>{props.data.Title}</Text>
         <View style={{ flex: 1, flexDirection: "row" }}>
@@ -29,11 +27,6 @@ export default (props: { data?: Achievement }) => {
 };
 
 const styles = StyleSheet.create({
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 5,
-  },
   container: {
     flex: 1,
     flexDirection: "row",
