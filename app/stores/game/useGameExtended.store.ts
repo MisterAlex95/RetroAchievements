@@ -1,25 +1,7 @@
-import { Achievements } from "./common.type";
-
-export interface RecentAchievement {
-  Date: string;
-  HardcoreMode: number;
-  AchievementID: number;
-  Title: string;
-  Description: string;
-  BadgeName: string;
-  Points: number;
-  TrueRatio: number;
-  Type: string;
-  Author: string;
-  GameTitle: string;
-  GameIcon: string;
-  GameID: number;
-  ConsoleName: string;
-  BadgeURL: string;
-  GameURL: string;
-}
-
-export type RecentAchievements = RecentAchievement[];
+import { Achievements } from "@/app/types/common.type";
+import RequestManager from "../../helpers/requestManager";
+import { createStore } from "../store";
+import { useUserStore } from "../user.store";
 
 export interface GameExtended {
   ID: number;
@@ -52,3 +34,20 @@ export interface GameExtended {
   NumDistinctPlayersCasual: number;
   NumDistinctPlayersHardcore: number;
 }
+
+export const useGameExtendedStore = createStore<GameExtended>(
+  "game-extended",
+  async (gameId: number) => {
+    const { authorization } = useUserStore.getState();
+    if (!authorization) {
+      return;
+    }
+
+    const answer = await RequestManager.getInstance().request<GameExtended>({
+      url: `https://retroachievements.org/API/API_GetGameExtended.php?z=${authorization.username}&y=${authorization.webApiKey}&i=${gameId}`,
+      method: "GET",
+    });
+
+    return answer?.data;
+  },
+);

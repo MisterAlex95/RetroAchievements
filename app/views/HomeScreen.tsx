@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { View, VirtualizedList, StyleSheet, Text } from "react-native";
 import {
   useUserStore,
-  useGameStore,
+  useUserRecentAchievements,
   useUserCompletionProgressStore,
   useGetUserProfileStore,
   useUserProgressPerGameStore,
@@ -20,7 +20,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     isFetching: isFetchingUserProgressPerGame,
   } = useUserProgressPerGameStore();
   const { fetchData: fetchProfile, data: profile } = useGetUserProfileStore();
-  const { recentAchievements, fetchRecentAchievements } = useGameStore();
+  const { data: recentAchievements, fetchData: fetchRecentAchievements } = useUserRecentAchievements();
   const {
     fetchData: fetchUserCompletionProgress,
     data: userCompletionProgress,

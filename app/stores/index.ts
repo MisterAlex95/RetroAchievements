@@ -1,4 +1,4 @@
 export * from "./user.store";
-export * from "./game.store";
-export * from "./event.store";
+export * from "./event";
 export * from "./user";
+export * from "./game";

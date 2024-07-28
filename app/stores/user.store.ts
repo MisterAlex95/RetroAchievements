@@ -2,7 +2,25 @@ import { create } from "zustand";
 import { buildAuthorization } from "@retroachievements/api";
 import * as Keychain from "react-native-keychain";
 
-import { UserStore } from "./user.store.d";
+import { AuthObject } from "@retroachievements/api";
+
+export interface UserState {
+  username?: string;
+  authorization?: AuthObject;
+  loading: boolean;
+}
+
+export interface UserAction {
+  setUsername: (username: string) => void;
+  isLoggedIn: () => boolean;
+  isLoading: () => boolean;
+
+  tryLogin: () => Promise<boolean>;
+  login: (apiKey: string, remember?: boolean) => Promise<void>;
+  logout: () => Promise<void>;
+}
+
+export type UserStore = UserState & UserAction;
 
 export const useUserStore = create<UserStore>()((set, get) => {
   return {

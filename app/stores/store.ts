@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { getItem, removeItem, setItem } from "../helpers/storage";
+import { getItem, setItem } from "../helpers/storage";
 
 export type State<T> = {
   data: T | null;

@@ -1,3 +1,7 @@
+import RequestManager from "../../helpers/requestManager";
+import { createStore } from "../store";
+import { useUserStore } from "../user.store";
+
 export interface AchievementOfTheWeek {
   Achievement: Achievement;
   Console: Console;
@@ -43,3 +47,20 @@ export interface Unlock {
   DateAwarded: string;
   HardcoreMode: number;
 }
+
+export const useAchievementOfTheWeek = createStore<AchievementOfTheWeek>(
+  "game-extended",
+  async (gameId: number) => {
+    const { authorization } = useUserStore.getState();
+    if (!authorization) {
+      return;
+    }
+
+    const answer = await RequestManager.getInstance().request<AchievementOfTheWeek>({
+      url: `https://retroachievements.org/API/API_GetAchievementOfTheWeek.php?z=${authorization.username}&y=${authorization.webApiKey}&u=${authorization.username}`,
+      method: "GET",
+    });
+
+    return answer?.data;
+  },
+);
