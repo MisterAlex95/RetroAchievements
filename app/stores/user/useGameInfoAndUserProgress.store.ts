@@ -1,7 +1,7 @@
-import RequestManager from "../helpers/requestManager";
-import { Achievements } from "../types/common.type";
-import { createStore } from "./store";
-import { useUserStore } from "./user.store";
+import RequestManager from "../../helpers/requestManager";
+import { Achievements } from "../../types/common.type";
+import { createStore } from "./../store";
+import { useUserStore } from "./../user.store";
 
 export interface GameInfoAndUserProgress {
   ID: number;

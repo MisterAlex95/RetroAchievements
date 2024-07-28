@@ -1,6 +1,6 @@
-import RequestManager from "../helpers/requestManager";
-import { createStore } from "./store";
-import { useUserStore } from "./user.store";
+import RequestManager from "../../helpers/requestManager";
+import { createStore } from "./../store";
+import { useUserStore } from "./../user.store";
 
 export type UserProgressPerGame = Record<string, GetUserProgress>;
 
