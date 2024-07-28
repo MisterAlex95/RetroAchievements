@@ -11,7 +11,7 @@ import UserCard from "../components/user/UserCard";
 import RecentAchivement from "../components/achievement/RecentAchivementBar";
 import RecentGameCard from "../components/game/RecentGameCard";
 
-import type { HomeScreenProps, UserCompletionProgressResult } from "../types/";
+import type { HomeScreenProps } from "../types/";
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const { username } = useUserStore();
@@ -45,10 +45,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     }
   }, [userCompletionProgress]);
 
-  const getItem = (
-    _data: unknown,
-    index: number,
-  ): UserCompletionProgressResult | undefined =>
+  const getItem = (_data: unknown, index: number) =>
     userCompletionProgress?.Results[index];
 
   const getItemCount = (_data: unknown) => userCompletionProgress?.Count ?? 0;
