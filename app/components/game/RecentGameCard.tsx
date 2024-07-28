@@ -5,10 +5,12 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { UserCompletionProgressResult } from "../../types/user.type";
 import { Colors } from "../../constants/Colors";
 import CircularProgress from "react-native-circular-progress-indicator";
-import { useUserProgressPerGameStore } from "../../stores";
+import {
+  UserCompletionProgressResult,
+  useUserProgressPerGameStore,
+} from "../../stores";
 
 export default (props: {
   data?: UserCompletionProgressResult;

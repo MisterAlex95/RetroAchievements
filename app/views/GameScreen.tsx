@@ -7,17 +7,18 @@ import {
   ImageBackground,
   VirtualizedList,
 } from "react-native";
-import { Achievement, GameTabProps } from "../types";
+import { GameTabProps } from "../types";
 import { Colors } from "../constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {
   useGameInfoAndUserProgressStore,
-  useGameStore,
   useUserProgressPerGameStore,
   useUserCompletionProgressStore,
 } from "../stores";
 import CircularProgress from "react-native-circular-progress-indicator";
 import AchievementCard from "../components/achievement/AchievementCard";
+import { useGameExtendedStore } from "../stores/game/useGameExtended.store";
+import { Achievement } from "../types/common.type";
 
 const GameScreen = ({ navigation, route }: GameTabProps) => {
   const { data: userProgressPerGame } = useUserProgressPerGameStore();
@@ -28,7 +29,8 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
   } = useGameInfoAndUserProgressStore();
 
   const { data: userCompletionProgress } = useUserCompletionProgressStore();
-  const { gameExtended, fetchGameExtended } = useGameStore();
+  const { data: gameExtended, fetchData: fetchGameExtended } =
+    useGameExtendedStore();
 
   useEffect(() => {
     navigation.setOptions({

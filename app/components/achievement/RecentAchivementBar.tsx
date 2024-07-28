@@ -1,7 +1,7 @@
+import { RecentAchievements } from "@/app/stores";
 import { ScrollView, StyleSheet, Image } from "react-native";
-import { RecentAchievements } from "../../types";
 
-export default (props: { data?: RecentAchievements }) => {
+export default (props: { data: RecentAchievements | null }) => {
   return (
     <ScrollView scrollEnabled horizontal style={styles.container}>
       {props.data &&

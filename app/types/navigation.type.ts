@@ -8,7 +8,6 @@ export type BottomTabParamList = {
   Setting: undefined;
   News: undefined;
   Game: { gameId: string };
-  //   Place: { placeId: number };
 };
 
 export type HomeScreenProps = NativeStackScreenProps<
@@ -28,9 +27,6 @@ export type SettingTabProps = BottomTabScreenProps<
   "Setting"
 >;
 
-export type NewsTabProps = BottomTabScreenProps<
-  BottomTabParamList,
-  "News"
->;
+export type NewsTabProps = BottomTabScreenProps<BottomTabParamList, "News">;
 
 export type GameTabProps = BottomTabScreenProps<BottomTabParamList, "Game">;
