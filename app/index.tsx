@@ -9,6 +9,7 @@ import { StatusBar } from "react-native";
 import GameScreen from "./views/GameScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import NewsScreen from "./views/NewsScreen";
 
 const Stack = createNativeStackNavigator<BottomTabParamList>();
 const HomeStack = createNativeStackNavigator<BottomTabParamList>();
@@ -49,6 +50,8 @@ function DefaultTabScreen() {
               : "home-outline";
           } else if (route.name === "Setting") {
             iconName = focused ? "cog" : "cog-outline";
+          } else if (route.name === "News") {
+            iconName = focused ? "newspaper" : "newspaper-outline";
           }
 
           // You can return any component that you like here!
@@ -57,6 +60,7 @@ function DefaultTabScreen() {
       })}
     >
       <DefaultTab.Screen name="Home" component={HomeStackScreen} />
+      <DefaultTab.Screen name="News" component={NewsScreen} />
       <DefaultTab.Screen name="Setting" component={SettingsScreen} />
     </DefaultTab.Navigator>
   );
