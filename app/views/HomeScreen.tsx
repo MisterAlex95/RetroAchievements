@@ -15,7 +15,10 @@ import type { HomeScreenProps, UserCompletionProgressResult } from "../types/";
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const { username } = useUserStore();
-  const { fetchData: fetchingUserProgressPerGame, isFetching: isFetchingUserProgressPerGame } = useUserProgressPerGameStore();
+  const {
+    fetchData: fetchingUserProgressPerGame,
+    isFetching: isFetchingUserProgressPerGame,
+  } = useUserProgressPerGameStore();
   const { fetchData: fetchProfile, data: profile } = useGetUserProfileStore();
   const { recentAchievements, fetchRecentAchievements } = useGameStore();
   const {
@@ -70,7 +73,10 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
             />
           )}
           keyExtractor={(item, index) => index.toString()}
-          onRefresh={fetchUserCompletionProgress}
+          onRefresh={() => {
+            fetchUserCompletionProgress();
+            fetchRecentAchievements();
+          }}
           refreshing={
             isFetchingUserCompletionProgress && isFetchingUserProgressPerGame
           }
