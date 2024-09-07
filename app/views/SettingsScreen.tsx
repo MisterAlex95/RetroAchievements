@@ -1,7 +1,8 @@
 import React from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import { View, Text, Button } from "react-native";
 import { SettingTabProps } from "../types";
 import { useUserStore } from "../stores";
+import { generateStyleSheet } from "../helpers/debugStyle";
 
 const SettingsScreen = ({ navigation }: SettingTabProps) => {
   const { logout } = useUserStore();
@@ -12,19 +13,18 @@ const SettingsScreen = ({ navigation }: SettingTabProps) => {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={styles.container}>
       <Text>Settings!</Text>
       <Button title="Disconnect" onPress={handleLogout} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = generateStyleSheet({
   container: {
     flex: 1,
-    flexDirection: "row",
-    width: "100%",
-    maxHeight: 50,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
