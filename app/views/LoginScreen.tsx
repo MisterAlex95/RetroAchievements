@@ -19,6 +19,12 @@ import { config } from "../../config";
 import { Colors } from "../constants/Colors";
 import { LoginScreenProps } from "../types";
 
+/**
+ * LoginScreen component handles the user login interface.
+ *
+ * @param {LoginScreenProps} props - The properties passed to the component.
+ * @returns {JSX.Element} The rendered component.
+ */
 export default function LoginScreen({ navigation }: LoginScreenProps) {
   const { login, username, setUsername, isLoggedIn, tryLogin, isLoading } =
     useUserStore();
@@ -26,6 +32,9 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   const [remember, setRemember] = useState(false);
 
   useEffect(() => {
+    /**
+     * Attempts to auto-login the user.
+     */
     const autoLogin = async () => {
       if (await tryLogin()) {
         navigation.navigate("Default");
@@ -39,6 +48,9 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
     }
   }, [isLoggedIn(), navigation]);
 
+  /**
+   * Handles the login process.
+   */
   const handleLogin = async () => {
     await login(apiKey, remember);
   };

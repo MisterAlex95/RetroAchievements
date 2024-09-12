@@ -1,18 +1,18 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet, Image, Text, VirtualizedList } from "react-native";
-import { GameTabProps } from "../types";
-import { Colors } from "../constants/Colors";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import React, { useEffect } from 'react';
+import { View, StyleSheet, Image, Text, VirtualizedList } from 'react-native';
+import { GameTabProps } from '../types';
+import { Colors } from '../constants/Colors';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import {
   useGameInfoAndUserProgressStore,
   useUserProgressPerGameStore,
   useUserCompletionProgressStore,
-} from "../stores";
-import CircularProgress from "react-native-circular-progress-indicator";
-import AchievementCard from "../components/achievement/AchievementCard";
-import { useGameExtendedStore } from "../stores/game/useGameExtended.store";
-import { Achievement } from "../types/common.type";
-import GamePicture from "../components/common/GamePicture";
+} from '../stores';
+import CircularProgress from 'react-native-circular-progress-indicator';
+import AchievementCard from '../components/achievement/AchievementCard';
+import { useGameExtendedStore } from '../stores/game/useGameExtended.store';
+import { Achievement } from '../types/common.type';
+import GamePicture from '../components/common/GamePicture';
 
 const GameScreen = ({ navigation, route }: GameTabProps) => {
   const { data: userProgressPerGame } = useUserProgressPerGameStore();
@@ -33,7 +33,7 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
           <View style={styles.headerButton}>
             <Ionicons
               onPress={() => {
-                navigation.navigate("Home");
+                navigation.navigate('Home');
               }}
               name="chevron-back"
               size={32}
@@ -71,14 +71,13 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
     <View style={styles.container}>
       <GamePicture
         height={250}
-        width={"100%"}
+        width={'100%'}
         borderRadius={0}
         resizeMode="cover"
         blurRadius={1}
         asBackground
         style={styles.topContainer}
-        imageUrl={currentGame.ImageIcon}
-      >
+        imageUrl={currentGame.ImageIcon}>
         <View style={styles.innerContainer}>
           <GamePicture
             imageUrl={currentGame.ImageIcon}
@@ -93,7 +92,7 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
                 userProgression.NumPossibleAchievements) *
               100
             }
-            valueSuffix={"%"}
+            valueSuffix={'%'}
             progressValueColor="#ffff"
             activeStrokeColor={Colors.dark.primary}
             activeStrokeSecondaryColor={Colors.dark.secondary}
@@ -118,7 +117,7 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    width: "100%",
+    width: '100%',
   },
   headerButton: {
     width: 50,
@@ -127,7 +126,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexDirection: "column",
+    flexDirection: 'column',
   },
   topContainer: {
     flex: 1,
@@ -135,14 +134,14 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    backgroundColor: "rgba(0,0,0, 0.60)",
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    backgroundColor: 'rgba(0,0,0, 0.60)',
   },
   virtualizeListContainer: {
     flex: 1,
-    width: "100%",
+    width: '100%',
   },
   textTitle: {
     marginTop: 15,
