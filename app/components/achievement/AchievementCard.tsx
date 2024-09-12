@@ -3,7 +3,14 @@ import { Colors } from "@/app/constants/Colors";
 import { Achievement } from "@/app/types/common.type";
 import AchievementPicture from "../common/AchievementPicture";
 
+/**
+ * Functional component to display an achievement card.
+ * @param props - The properties of the component.
+ * @param props.data - The achievement data to display.
+ * @returns A JSX component representing an achievement card.
+ */
 export default (props: { data?: Achievement }) => {
+  // If the achievement data is not provided, return an empty component.
   if (!props.data) return <></>;
 
   return (
@@ -26,6 +33,9 @@ export default (props: { data?: Achievement }) => {
   );
 };
 
+/**
+ * Styles for the AchievementCard component.
+ */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -43,7 +53,5 @@ const styles = StyleSheet.create({
   },
   description: {
     marginTop: 5,
-    color: Colors.dark["base-100"],
-    fontSize: 13,
   },
 });
