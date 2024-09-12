@@ -1,7 +1,7 @@
-import { View, StyleSheet, Image, Text } from "react-native";
-import { Colors } from "@/app/constants/Colors";
-import { Achievement } from "@/app/types/common.type";
-import AchievementPicture from "../common/AchievementPicture";
+import { View, StyleSheet, Image, Text } from 'react-native';
+import { Colors } from '@/app/constants/Colors';
+import { Achievement } from '@/app/types/common.type';
+import AchievementPicture from '../common/AchievementPicture';
 
 /**
  * Functional component to display an achievement card.
@@ -16,7 +16,9 @@ export default (props: { data?: Achievement }) => {
   return (
     <View style={styles.container}>
       <AchievementPicture
-        imageUrl={props.data.BadgeName + (props.data.DateEarned ? ".png" : "_lock.png")}
+        imageUrl={
+          props.data.BadgeName + (props.data.DateEarned ? '.png' : '_lock.png')
+        }
         width={100}
         needPrefix
         height={100}
@@ -24,7 +26,7 @@ export default (props: { data?: Achievement }) => {
       />
       <View style={{ flex: 1, marginHorizontal: 10 }}>
         <Text style={styles.gameTitle}>{props.data.Title}</Text>
-        <View style={{ flex: 1, flexDirection: "row" }}>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
           <Text style={styles.description}>{props.data.Description}</Text>
           <View style={{ flex: 1 }}></View>
         </View>
@@ -39,17 +41,17 @@ export default (props: { data?: Achievement }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
-    width: "100%",
+    flexDirection: 'row',
+    width: '100%',
     margin: 5,
     maxHeight: 100,
     backgroundColor: Colors.dark.neutral,
   },
   gameTitle: {
     marginLeft: 15,
-    maxWidth: "75%",
-    color: Colors.dark["base-100"],
-    fontWeight: "bold",
+    maxWidth: '75%',
+    color: Colors.dark['base-100'],
+    fontWeight: 'bold',
   },
   description: {
     marginTop: 5,
