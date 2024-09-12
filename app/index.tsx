@@ -39,7 +39,7 @@ function DefaultTabScreen() {
           color: Colors.dark.basicText,
         },
         tabBarItemStyle: {
-          backgroundColor: Colors.dark.menuBackgound,
+          backgroundColor: Colors.dark.menuBackground,
         },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName: any = "";
