@@ -1,4 +1,5 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { config } from '@/config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Type pour stocker les données avec expiration
 type CachedData<T> = {
@@ -10,15 +11,16 @@ type CachedData<T> = {
 export const getItem = async <T>(key: string): Promise<T | null> => {
   try {
     const jsonValue = await AsyncStorage.getItem(key);
-    if (jsonValue != null) {
-      const cached: CachedData<T> = JSON.parse(jsonValue);
-      if (cached.expiry && cached.expiry > Date.now()) {
-        return cached.data;
-      } else {
-        await removeItem(key); // Supprimer l'élément expiré
-      }
+    if (!jsonValue) return null;
+
+    const cached: CachedData<T> = JSON.parse(jsonValue);
+
+    if (config.autoExpire || (cached.expiry && cached.expiry <= Date.now())) {
+      await removeItem(key); // Supprimer l'élément expiré
+      return null;
     }
-    return null;
+
+    return cached.data;
   } catch (e) {
     console.error(e);
     return null;
@@ -40,7 +42,7 @@ export const setItem = async <T>(key: string, value: T, ttl: number) => {
 // Fonction pour supprimer des éléments
 export const removeItem = async (key: string) => {
   try {
-    console.info(key + " removed");
+    console.info(key + ' removed');
     await AsyncStorage.removeItem(key);
   } catch (e) {
     console.error(e);

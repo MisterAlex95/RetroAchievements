@@ -11,7 +11,7 @@ import {
 import CircularProgress from 'react-native-circular-progress-indicator';
 import AchievementCard from '../components/achievement/AchievementCard';
 import { useGameExtendedStore } from '../stores/game/useGameExtended.store';
-import { Achievement } from '../types/common.type';
+import { Achievement, Achievements } from '../types/common.type';
 import GamePicture from '../components/common/GamePicture';
 
 const GameScreen = ({ navigation, route }: GameTabProps) => {
@@ -58,10 +58,21 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
   if (!userProgression) return <></>;
   if (!currentGame || !gameExtended) return <></>;
 
-  const getItem = (_data: unknown, index: number): Achievement => {
-    return Object.keys(gameExtended.Achievements).map(
-      (_) => gameExtended.Achievements[_],
-    )[index];
+  const getItem = (_data: Achievements, index: number): Achievement => {
+    if (!gameInfoAndUserProgress) return {} as Achievement;
+    const achievementsArray = Object.values(gameInfoAndUserProgress.Achievements);
+
+    const achievementEarned = achievementsArray.filter((a) => a.DateEarned);
+    const achievementNotEarned = achievementsArray.filter((a) => !a.DateEarned);
+
+    achievementEarned.sort((a, b) => {
+      if (!a.DateEarned || !b.DateEarned) return 0;
+      return (
+        new Date(a.DateEarned).getTime() - new Date(b.DateEarned).getTime()
+      );
+    });
+
+    return achievementEarned.concat(achievementNotEarned)[index];
   };
 
   const getItemCount = (_data: unknown) =>
@@ -104,7 +115,7 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
         initialNumToRender={4}
         renderItem={(_) => (
           <AchievementCard
-            data={gameInfoAndUserProgress?.Achievements[_.item.ID]}
+            data={_.item}
           />
         )}
         keyExtractor={(item, index) => index.toString()}

@@ -55,5 +55,6 @@ const styles = StyleSheet.create({
   },
   description: {
     marginTop: 5,
+    color: Colors.dark['base-100']
   },
 });

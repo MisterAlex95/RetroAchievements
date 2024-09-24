@@ -1,7 +1,7 @@
-import RequestManager from "../../helpers/requestManager";
-import { Achievements } from "../../types/common.type";
-import { createStore } from "./../store";
-import { useUserStore } from "./../user.store";
+import RequestManager from '../../helpers/requestManager';
+import { Achievement, Achievements } from '../../types/common.type';
+import { createStore } from './../store';
+import { useUserStore } from './../user.store';
 
 export interface GameInfoAndUserProgress {
   ID: number;
@@ -40,7 +40,7 @@ export interface GameInfoAndUserProgress {
 
 export const useGameInfoAndUserProgressStore =
   createStore<GameInfoAndUserProgress>(
-    "game-info-and-user-progress",
+    'game-info-and-user-progress',
     async (gameId: string) => {
       const { authorization } = useUserStore.getState();
       if (!authorization) {
@@ -51,7 +51,7 @@ export const useGameInfoAndUserProgressStore =
       const answer =
         await RequestManager.getInstance().request<GameInfoAndUserProgress>({
           url: `https://retroachievements.org/API/API_GetGameInfoAndUserProgress.php?z=${authorization.username}&y=${authorization.webApiKey}&u=${authorization.username}&g=${gameId}`,
-          method: "GET",
+          method: 'GET',
         });
 
       return answer?.data;

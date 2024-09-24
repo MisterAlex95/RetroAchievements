@@ -43,7 +43,6 @@ export default class RequestManager {
       `Fetching ${requestConfig.method} request for ${requestConfig.url}`,
     );
 
-    // Remplacez par la logique de requête réelle, par exemple avec fetch ou axios
     return axios.request<T>({
       method: requestConfig.method,
       url: requestConfig.url,
