@@ -4,14 +4,14 @@ import {
   ImageBackground,
   Text,
   TouchableOpacity,
-} from "react-native";
-import { Colors } from "../../constants/Colors";
-import CircularProgress from "react-native-circular-progress-indicator";
+} from 'react-native';
+import { Colors } from '../../constants/Colors';
+import CircularProgress from 'react-native-circular-progress-indicator';
 import {
   UserCompletionProgressResult,
   useUserProgressPerGameStore,
-} from "../../stores";
-import GamePicture from "../common/GamePicture";
+} from '../../stores';
+import GamePicture from '../common/GamePicture';
 
 export default (props: {
   data?: UserCompletionProgressResult;
@@ -22,16 +22,16 @@ export default (props: {
 
   const smallerPlatformName = (platformName: string) => {
     switch (platformName) {
-      case "PlayStation 2":
-        return "PS2";
-      case "PlayStation":
-        return "PSX";
-      case "PlayStation Portable":
-        return "PSP";
-      case "NES/Famicom":
-        return "NES";
+      case 'PlayStation 2':
+        return 'PS2';
+      case 'PlayStation':
+        return 'PSX';
+      case 'PlayStation Portable':
+        return 'PSP';
+      case 'NES/Famicom':
+        return 'NES';
       default:
-        return platformName.match(/\b(\w)/g)?.join("");
+        return platformName.match(/\b(\w)/g)?.join('');
     }
   };
 
@@ -45,8 +45,7 @@ export default (props: {
         width={100}
         height={100}
         borderRadius={5}
-        asBackground
-      >
+        asBackground>
         <View style={{ flex: 1 }}></View>
         <View style={styles.platformContainer}>
           <Text style={styles.platformName}>
@@ -57,19 +56,19 @@ export default (props: {
 
       <View style={{ flex: 1, marginHorizontal: 10 }}>
         <Text style={styles.gameTitle}>{props.data.Title}</Text>
-        <View style={{ flex: 1, flexDirection: "row" }}>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
           <View>
             <Text style={{ color: Colors.dark.primary }}>
-              <Text style={{ fontWeight: "bold" }}>{game.ScoreAchieved}</Text>{" "}
-              of{" "}
-              <Text style={{ fontWeight: "bold" }}>{game.PossibleScore}</Text>{" "}
+              <Text style={{ fontWeight: 'bold' }}>{game.ScoreAchieved}</Text>{' '}
+              of{' '}
+              <Text style={{ fontWeight: 'bold' }}>{game.PossibleScore}</Text>{' '}
               points
             </Text>
             <Text style={{ color: Colors.dark.primary }}>
-              <Text style={{ fontWeight: "bold" }}>{game.NumAchieved}</Text> of{" "}
-              <Text style={{ fontWeight: "bold" }}>
+              <Text style={{ fontWeight: 'bold' }}>{game.NumAchieved}</Text> of{' '}
+              <Text style={{ fontWeight: 'bold' }}>
                 {game.NumPossibleAchievements}
-              </Text>{" "}
+              </Text>{' '}
               achievements
             </Text>
           </View>
@@ -78,7 +77,7 @@ export default (props: {
             <CircularProgress
               radius={25}
               value={(game.NumAchieved / game.NumPossibleAchievements) * 100}
-              valueSuffix={"%"}
+              valueSuffix={'%'}
               progressValueColor="#ffff"
               activeStrokeColor={Colors.dark.primary}
               activeStrokeSecondaryColor={Colors.dark.secondary}
@@ -87,8 +86,8 @@ export default (props: {
         </View>
         <View style={{ flex: 1 }}></View>
         <Text style={styles.lastPlaytime}>
-          Played on{" "}
-          {new Date(props.data.MostRecentAwardedDate).toLocaleDateString()} at{" "}
+          Played on{' '}
+          {new Date(props.data.MostRecentAwardedDate).toLocaleDateString()} at{' '}
           {new Date(props.data.MostRecentAwardedDate).toLocaleTimeString()}
         </Text>
       </View>
@@ -99,37 +98,37 @@ export default (props: {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "row",
-    width: "100%",
+    flexDirection: 'row',
+    width: '100%',
     margin: 5,
     maxHeight: 100,
     backgroundColor: Colors.dark.neutral,
   },
   gameTitle: {
     marginLeft: 15,
-    maxWidth: "75%",
-    color: Colors.dark["base-100"],
-    fontWeight: "bold",
+    maxWidth: '75%',
+    color: Colors.dark['base-100'],
+    fontWeight: 'bold',
   },
   platformContainer: {
-    backgroundColor: "#000000DD",
-    borderColor: "#fff",
+    backgroundColor: '#000000DD',
+    borderColor: '#fff',
     borderWidth: 2,
     maxWidth: 35,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 5,
     margin: 4,
     marginHorizontal: 8,
   },
   platformName: {
-    color: Colors.dark["base-100"],
-    fontWeight: "bold",
+    color: Colors.dark['base-100'],
+    fontWeight: 'bold',
     fontSize: 10,
   },
   lastPlaytime: {
     marginLeft: 5,
-    color: Colors.dark["base-100"],
+    color: Colors.dark['base-100'],
     fontSize: 10,
   },
 });

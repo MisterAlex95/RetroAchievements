@@ -13,6 +13,7 @@ import AchievementCard from '../components/achievement/AchievementCard';
 import { useGameExtendedStore } from '../stores/game/useGameExtended.store';
 import { Achievement, Achievements } from '../types/common.type';
 import GamePicture from '../components/common/GamePicture';
+import ActivityPage from '../components/widgets/ActivityPage';
 
 const GameScreen = ({ navigation, route }: GameTabProps) => {
   const { data: userProgressPerGame } = useUserProgressPerGameStore();
@@ -60,7 +61,9 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
 
   const getItem = (_data: Achievements, index: number): Achievement => {
     if (!gameInfoAndUserProgress) return {} as Achievement;
-    const achievementsArray = Object.values(gameInfoAndUserProgress.Achievements);
+    const achievementsArray = Object.values(
+      gameInfoAndUserProgress.Achievements,
+    );
 
     const achievementEarned = achievementsArray.filter((a) => a.DateEarned);
     const achievementNotEarned = achievementsArray.filter((a) => !a.DateEarned);
@@ -80,7 +83,7 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
 
   return (
     <View style={styles.container}>
-      <GamePicture
+      {/* <GamePicture
         height={250}
         width={'100%'}
         borderRadius={0}
@@ -121,7 +124,8 @@ const GameScreen = ({ navigation, route }: GameTabProps) => {
         keyExtractor={(item, index) => index.toString()}
         getItemCount={getItemCount}
         getItem={getItem}
-      />
+      /> */}
+      <ActivityPage />
     </View>
   );
 };
