@@ -7,7 +7,7 @@ import CircularProgress from 'react-native-circular-progress-indicator';
 
 export interface ProfileWidgetProps extends WidgetProps {
   isRichPresence: boolean;
-};
+}
 
 const ProfileWidget: React.FC<ProfileWidgetProps> = (props) => {
   const { username } = useUserStore();
@@ -33,7 +33,12 @@ const ProfileWidget: React.FC<ProfileWidgetProps> = (props) => {
   }
 
   return (
-    <Widget halfWidth containerStyle={styles.container} {...props}>
+    <Widget
+      containerStyle={{
+        ...styles.container,
+        height: props.isRichPresence ? 210 : 100,
+      }}
+      {...props}>
       <View style={styles.profileContainer}>
         <Image
           source={{ uri: 'https://retroachievements.org' + user.UserPic }}
@@ -55,10 +60,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  switch: {
-    alignSelf: 'flex-end',
-    marginBottom: 10,
-  },
   profileContainer: {
     alignItems: 'center',
   },
@@ -66,7 +67,6 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    marginBottom: 10,
   },
   username: {
     fontSize: 18,
@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     color: Colors.dark.basicText,
   },
   richPresence: {
+    marginTop: 10,
     fontSize: 12,
     color: Colors.dark.basicText,
   },

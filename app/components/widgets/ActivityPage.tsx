@@ -1,33 +1,76 @@
 import React from 'react';
-import { StyleSheet, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 
 import Widget, { WidgetProps } from './Widget';
 import ProfileWidget, { ProfileWidgetProps } from './ProfileWidget';
 import RecentGameWidget, { RecentGameProps } from './RecentGameWidget';
+import VerticalContainerWidget, {
+  VerticalContainerWidgetProps,
+} from './VerticalContainerWidget';
 
-const widgets: (WidgetProps | ProfileWidgetProps)[] = [
+const widgets: (
+  | WidgetProps
+  | ProfileWidgetProps
+  | VerticalContainerWidgetProps
+  | RecentGameProps
+)[] = [
   {
     type: 'profile',
     isRichPresence: true,
+    halfWidth: true,
+    backgroundColor: 'transparent',
+  },
+  {
+    type: 'vertical-container',
+    widgets: [
+      {
+        type: 'profile',
+        isRichPresence: false,
+        backgroundColor: 'transparent',
+      },
+      {
+        type: 'profile',
+        isRichPresence: false,
+        backgroundColor: 'transparent',
+      },
+    ],
+  },
+  {
+    type: 'profile',
+    isRichPresence: false,
+    halfWidth: true,
     backgroundColor: 'transparent',
   },
   {
     type: 'profile',
     isRichPresence: false,
+    halfWidth: true,
     backgroundColor: 'transparent',
-    containerStyle: { height: 100, padding: 10 },
+  },
+
+  {
+    type: 'profile',
+    isRichPresence: false,
+    halfWidth: true,
+    backgroundColor: 'transparent',
+  },
+  {
+    type: 'profile',
+    isRichPresence: false,
+    halfWidth: true,
+    backgroundColor: 'transparent',
+  },
+
+  {
+    type: 'profile',
+    isRichPresence: false,
+    backgroundColor: 'transparent',
   },
   {
     type: 'recentGame',
     doubleHeight: true,
     backgroundColor: 'transparent',
-    containerStyle: { height: 150, padding: 10 },
   },
-  { doubleHeight: true },
-  { halfWidth: true, doubleHeight: true },
-  { halfWidth: true },
-  { doubleHeight: true, halfWidth: true },
-  { halfWidth: false },
 ];
 
 export default () => {
@@ -43,6 +86,13 @@ export default () => {
             return (
               <RecentGameWidget key={index} {...(widget as RecentGameProps)} />
             );
+          case 'vertical-container':
+            return (
+              <VerticalContainerWidget
+                key={index}
+                {...(widget as VerticalContainerWidgetProps)}
+              />
+            );
           default:
             return <Widget key={index} {...(widget as WidgetProps)} />;
         }
@@ -53,8 +103,8 @@ export default () => {
 
 const styles = StyleSheet.create({
   container: {
+    padding: 10,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 10,
   },
 });

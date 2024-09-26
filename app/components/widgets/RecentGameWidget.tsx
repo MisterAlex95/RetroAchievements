@@ -69,7 +69,7 @@ const RecentGameWidget: React.FC<RecentGameProps> = (props) => {
   if (!gameData) return null;
 
   return (
-    <Widget {...props}>
+    <Widget {...{ containerStyle: { height: 125 }, ...props }}>
       <TouchableOpacity style={styles.container} onPress={() => {}}>
         <GamePicture
           imageUrl={game.ImageIcon}
