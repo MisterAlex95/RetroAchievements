@@ -80,7 +80,7 @@ const RecentGameWidget: React.FC<RecentGameProps> = (props) => {
           <View style={{ flex: 1 }}></View>
           <View style={styles.platformContainer}>
             <Text style={styles.platformName}>
-              {smallerPlatformName(game.ConsoleName ?? "")}
+              {smallerPlatformName(game.ConsoleName ?? '')}
             </Text>
           </View>
         </GamePicture>
@@ -89,7 +89,7 @@ const RecentGameWidget: React.FC<RecentGameProps> = (props) => {
           <Text style={styles.gameTitle}>{game.Title}</Text>
           <View style={{ flex: 1, flexDirection: 'row' }}>
             <View>
-              <Text style={{ color: Colors.dark.primary }}>
+              <Text style={{ color: Colors.dark.basicText }}>
                 <Text style={{ fontWeight: 'bold' }}>
                   {gameData.ScoreAchieved}
                 </Text>{' '}
@@ -99,7 +99,7 @@ const RecentGameWidget: React.FC<RecentGameProps> = (props) => {
                 </Text>{' '}
                 points
               </Text>
-              <Text style={{ color: Colors.dark.primary }}>
+              <Text style={{ color: Colors.dark.basicText }}>
                 <Text style={{ fontWeight: 'bold' }}>
                   {gameData.NumAchieved}
                 </Text>{' '}
@@ -142,13 +142,8 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     width: '100%',
-    margin: 5,
-    maxHeight: 100,
-    backgroundColor: Colors.dark.neutral,
   },
   gameTitle: {
-    marginLeft: 15,
-    maxWidth: '75%',
     color: Colors.dark['base-100'],
     fontWeight: 'bold',
   },
