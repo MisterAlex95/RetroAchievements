@@ -7,16 +7,39 @@ import RecentGameWidget, { RecentGameProps } from './RecentGameWidget';
 import VerticalContainerWidget, {
   VerticalContainerWidgetProps,
 } from './VerticalContainerWidget';
+import RecentAchievementWidget, {
+  RecentAchievementProps,
+} from './RecentAchievementWidget';
 
 const widgets: (
   | WidgetProps
   | ProfileWidgetProps
   | VerticalContainerWidgetProps
   | RecentGameProps
+  | RecentAchievementProps
 )[] = [
   {
     type: 'profile',
     isRichPresence: true,
+    backgroundColor: 'transparent',
+  },
+  {
+    type: 'recentAchievement',
+    backgroundColor: 'transparent',
+  },
+  {
+    type: 'recentGame',
+    backgroundColor: 'transparent',
+  },
+  {
+    type: 'profile',
+    isRichPresence: false,
+    halfWidth: true,
+    backgroundColor: 'transparent',
+  },
+  {
+    type: 'profile',
+    isRichPresence: false,
     halfWidth: true,
     backgroundColor: 'transparent',
   },
@@ -24,52 +47,12 @@ const widgets: (
     type: 'vertical-container',
     widgets: [
       {
-        type: 'profile',
-        isRichPresence: false,
-        backgroundColor: 'transparent',
+        type: 'empty',
       },
       {
-        type: 'profile',
-        isRichPresence: false,
-        backgroundColor: 'transparent',
+        type: 'empty',
       },
     ],
-  },
-  {
-    type: 'profile',
-    isRichPresence: false,
-    halfWidth: true,
-    backgroundColor: 'transparent',
-  },
-  {
-    type: 'profile',
-    isRichPresence: false,
-    halfWidth: true,
-    backgroundColor: 'transparent',
-  },
-
-  {
-    type: 'profile',
-    isRichPresence: false,
-    halfWidth: true,
-    backgroundColor: 'transparent',
-  },
-  {
-    type: 'profile',
-    isRichPresence: false,
-    halfWidth: true,
-    backgroundColor: 'transparent',
-  },
-
-  {
-    type: 'profile',
-    isRichPresence: false,
-    backgroundColor: 'transparent',
-  },
-  {
-    type: 'recentGame',
-    doubleHeight: true,
-    backgroundColor: 'transparent',
   },
 ];
 
@@ -85,6 +68,13 @@ export default () => {
           case 'recentGame':
             return (
               <RecentGameWidget key={index} {...(widget as RecentGameProps)} />
+            );
+          case 'recentAchievement':
+            return (
+              <RecentAchievementWidget
+                key={index}
+                {...(widget as RecentAchievementProps)}
+              />
             );
           case 'vertical-container':
             return (
