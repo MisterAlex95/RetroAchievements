@@ -14,7 +14,7 @@ export interface GetUserProgress {
 }
 
 export const useUserProgressPerGameStore = createStore<UserProgressPerGame>(
-  "user-progess-per-game",
+  "user-progress-per-game",
   async (gameIds: string[]) => {
     const { authorization } = useUserStore.getState();
     if (!authorization) {

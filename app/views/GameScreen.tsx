@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Image, Text, VirtualizedList } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { GameTabProps } from '../types';
 import { Colors } from '../constants/Colors';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -8,11 +8,8 @@ import {
   useUserProgressPerGameStore,
   useUserCompletionProgressStore,
 } from '../stores';
-import CircularProgress from 'react-native-circular-progress-indicator';
-import AchievementCard from '../components/achievement/AchievementCard';
 import { useGameExtendedStore } from '../stores/game/useGameExtended.store';
 import { Achievement, Achievements } from '../types/common.type';
-import GamePicture from '../components/common/GamePicture';
 import ActivityPage from '../components/widgets/ActivityPage';
 
 const GameScreen = ({ navigation, route }: GameTabProps) => {
