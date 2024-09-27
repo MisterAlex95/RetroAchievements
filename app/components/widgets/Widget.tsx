@@ -1,18 +1,6 @@
+import { WidgetProps } from '@/app/types/widget.type';
 import React from 'react';
-import { View, StyleSheet, ViewStyle } from 'react-native';
-
-export interface WidgetProps {
-  halfWidth?: boolean;
-  doubleHeight?: boolean;
-  containerStyle?: ViewStyle;
-  backgroundColor?: string;
-  borderRadius?: number;
-  padding?: number;
-  margin?: number;
-  widgets?: WidgetProps & any[];
-  children?: React.ReactNode;
-  type?: string;
-}
+import { View, StyleSheet } from 'react-native';
 
 const Widget: React.FC<WidgetProps> = ({
   halfWidth,

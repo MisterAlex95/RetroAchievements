@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import Widget, { WidgetProps } from './Widget';
+import Widget from './Widget';
 import { useGetUserProfileStore, useUserStore } from '@/app/stores';
 import { Colors } from '@/app/constants/Colors';
 import CircularProgress from 'react-native-circular-progress-indicator';
+import { WidgetProps } from '@/app/types/widget.type';
 
 export interface ProfileWidgetProps extends WidgetProps {
   isRichPresence: boolean;

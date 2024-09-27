@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Widget, { WidgetProps } from './Widget';
+import Widget from './Widget';
 import RecentGameWidget, { RecentGameProps } from './RecentGameWidget';
+import { WidgetProps } from '@/app/types/widget.type';
 
 export interface LoopContainerWidgetProps {
   type: 'loop-container';

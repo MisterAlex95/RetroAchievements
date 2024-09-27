@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-import Widget, { WidgetProps } from './Widget';
+import {
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import Widget from './Widget';
 import {
   useUserStore,
   useUserCompletionProgressStore,
@@ -9,6 +15,7 @@ import {
 import { Colors } from '@/app/constants/Colors';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import GamePicture from '../common/GamePicture';
+import { WidgetProps } from '@/app/types/widget.type';
 
 export interface RecentGameProps extends WidgetProps {
   index?: number;

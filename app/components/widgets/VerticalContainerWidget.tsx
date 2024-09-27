@@ -1,11 +1,12 @@
 import { StyleSheet, View } from 'react-native';
 import ProfileWidget, { ProfileWidgetProps } from './ProfileWidget';
 import RecentGameWidget, { RecentGameProps } from './RecentGameWidget';
-import Widget, { WidgetProps } from './Widget';
+import Widget from './Widget';
+import { WidgetListProps, WidgetProps } from '@/app/types/widget.type';
 
 export interface VerticalContainerWidgetProps {
   type: 'vertical-container';
-  widgets: (WidgetProps | ProfileWidgetProps | RecentGameProps)[];
+  widgets: WidgetProps[];
 }
 
 const VerticalContainerWidget: React.FC<VerticalContainerWidgetProps> = ({
