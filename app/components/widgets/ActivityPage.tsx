@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 
-import Widget, { WidgetProps } from './Widget';
+import Widget from './Widget';
 import ProfileWidget, { ProfileWidgetProps } from './ProfileWidget';
 import RecentGameWidget, { RecentGameProps } from './RecentGameWidget';
 import VerticalContainerWidget, {
@@ -14,6 +14,7 @@ import LoopContainerWidget, {
   LoopContainerWidgetProps,
 } from './LoopContainerWidgets';
 import { widgetsConfig } from '../../../config/widgetsConfig';
+import { WidgetProps } from '@/app/types/widget.type';
 
 function generateWidgetComponent(widget: any, index: number) {
   switch (widget.type) {
