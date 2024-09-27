@@ -13,33 +13,7 @@ import RecentAchievementWidget, {
 import LoopContainerWidget, {
   LoopContainerWidgetProps,
 } from './LoopContainerWidgets';
-
-const widgets: (
-  | WidgetProps
-  | ProfileWidgetProps
-  | VerticalContainerWidgetProps
-  | RecentGameProps
-  | RecentAchievementProps
-  | LoopContainerWidgetProps
-)[] = [
-  {
-    type: 'profile',
-    isRichPresence: true,
-    backgroundColor: 'transparent',
-  },
-  {
-    type: 'recentAchievement',
-    backgroundColor: 'transparent',
-  },
-  {
-    type: 'loop-container',
-    count: 10,
-    widget: {
-      type: 'recentGame',
-      backgroundColor: 'transparent',
-    },
-  },
-];
+import { widgetsConfig } from '../../../config/widgetsConfig';
 
 function generateWidgetComponent(widget: any, index: number) {
   switch (widget.type) {
@@ -76,7 +50,7 @@ function generateWidgetComponent(widget: any, index: number) {
 export default () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {widgets.map((widget, index) => {
+      {widgetsConfig.map((widget, index) => {
         return generateWidgetComponent(widget, index);
       })}
     </ScrollView>
