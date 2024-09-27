@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, ScrollView, Image } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
 import Widget, { WidgetProps } from './Widget';
 import { useUserRecentAchievements } from '@/app/stores';
 import { Colors } from '@/app/constants/Colors';
@@ -20,21 +26,14 @@ const RecentAchievementWidget: React.FC<RecentAchievementProps> = (props) => {
 
   if (isFetchingRecentAchievements) {
     return (
-      <View>
-        <CircularProgress
-          radius={25}
-          value={0}
-          valueSuffix={'%'}
-          progressValueColor="#ffff"
-          activeStrokeColor={Colors.dark.primary}
-          activeStrokeSecondaryColor={Colors.dark.secondary}
-        />
-      </View>
+      <Widget {...{ containerStyle: { height: 85 }, ...props }}>
+        <ActivityIndicator size="large" color={Colors.dark.primary} />
+      </Widget>
     );
   }
 
   return (
-    <Widget {...{ containerStyle: { height: 70, padding:10 }, ...props }}>
+    <Widget {...{ containerStyle: { height: 70, padding: 10 }, ...props }}>
       <ScrollView scrollEnabled horizontal style={styles.container}>
         {recentAchievements &&
           recentAchievements.map((ra) => (

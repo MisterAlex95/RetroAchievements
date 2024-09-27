@@ -10,6 +10,9 @@ import VerticalContainerWidget, {
 import RecentAchievementWidget, {
   RecentAchievementProps,
 } from './RecentAchievementWidget';
+import LoopContainerWidget, {
+  LoopContainerWidgetProps,
+} from './LoopContainerWidgets';
 
 const widgets: (
   | WidgetProps
@@ -17,6 +20,7 @@ const widgets: (
   | VerticalContainerWidgetProps
   | RecentGameProps
   | RecentAchievementProps
+  | LoopContainerWidgetProps
 )[] = [
   {
     type: 'profile',
@@ -28,52 +32,52 @@ const widgets: (
     backgroundColor: 'transparent',
   },
   {
-    type: 'recentGame',
-    index: 0,
-    backgroundColor: 'transparent',
+    type: 'loop-container',
+    count: 10,
+    widget: {
+      type: 'recentGame',
+      backgroundColor: 'transparent',
+    },
   },
-  {
-    type: 'recentGame',
-    index: 1,
-    backgroundColor: 'transparent',
-  },
-  {
-    type: 'recentGame',
-    index: 2,
-    backgroundColor: 'transparent',
-  }
 ];
+
+function generateWidgetComponent(widget: any, index: number) {
+  switch (widget.type) {
+    case 'profile':
+      return <ProfileWidget key={index} {...(widget as ProfileWidgetProps)} />;
+    case 'recentGame':
+      return <RecentGameWidget key={index} {...(widget as RecentGameProps)} />;
+    case 'recentAchievement':
+      return (
+        <RecentAchievementWidget
+          key={index}
+          {...(widget as RecentAchievementProps)}
+        />
+      );
+    case 'vertical-container':
+      return (
+        <VerticalContainerWidget
+          key={index}
+          {...(widget as VerticalContainerWidgetProps)}
+        />
+      );
+    case 'loop-container':
+      return (
+        <LoopContainerWidget
+          key={index}
+          {...(widget as LoopContainerWidgetProps)}
+        />
+      );
+    default:
+      return <Widget key={index} {...(widget as WidgetProps)} />;
+  }
+}
 
 export default () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {widgets.map((widget, index) => {
-        switch (widget.type) {
-          case 'profile':
-            return (
-              <ProfileWidget key={index} {...(widget as ProfileWidgetProps)} />
-            );
-          case 'recentGame':
-            return (
-              <RecentGameWidget key={index} {...(widget as RecentGameProps)} />
-            );
-          case 'recentAchievement':
-            return (
-              <RecentAchievementWidget
-                key={index}
-                {...(widget as RecentAchievementProps)}
-              />
-            );
-          case 'vertical-container':
-            return (
-              <VerticalContainerWidget
-                key={index}
-                {...(widget as VerticalContainerWidgetProps)}
-              />
-            );
-          default:
-            return <Widget key={index} {...(widget as WidgetProps)} />;
-        }
+        return generateWidgetComponent(widget, index);
       })}
     </ScrollView>
   );

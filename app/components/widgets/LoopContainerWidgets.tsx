@@ -1,22 +1,34 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import Widget, { WidgetProps } from './Widget';
+import RecentGameWidget, { RecentGameProps } from './RecentGameWidget';
 
-interface LoopContainerWidgetProps {
+export interface LoopContainerWidgetProps {
+  type: 'loop-container';
   count: number;
-  renderItem: (index: number) => React.ReactNode;
+  widget: RecentGameProps;
 }
 
 const LoopContainerWidget: React.FC<LoopContainerWidgetProps> = ({
   count,
-  renderItem,
+  widget,
 }) => {
   return (
     <View style={styles.container}>
-      {Array.from({ length: count }).map((_, index) => (
-        <View key={index} style={styles.item}>
-          {renderItem(index)}
-        </View>
-      ))}
+      {Array.from({ length: count }).map((_, index) => {
+        switch (widget.type) {
+          case 'recentGame':
+            return (
+              <RecentGameWidget
+                key={index}
+                index={index}
+                {...(widget as RecentGameProps)}
+              />
+            );
+          default:
+            return <Widget key={index} {...(widget as WidgetProps)} />;
+        }
+      })}
     </View>
   );
 };
@@ -25,6 +37,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     alignItems: 'center',
+    flex: 1,
   },
   item: {
     marginVertical: 5,
