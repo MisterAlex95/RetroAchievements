@@ -29,31 +29,19 @@ const widgets: (
   },
   {
     type: 'recentGame',
+    index: 0,
     backgroundColor: 'transparent',
   },
   {
-    type: 'profile',
-    isRichPresence: false,
-    halfWidth: true,
+    type: 'recentGame',
+    index: 1,
     backgroundColor: 'transparent',
   },
   {
-    type: 'profile',
-    isRichPresence: false,
-    halfWidth: true,
+    type: 'recentGame',
+    index: 2,
     backgroundColor: 'transparent',
-  },
-  {
-    type: 'vertical-container',
-    widgets: [
-      {
-        type: 'empty',
-      },
-      {
-        type: 'empty',
-      },
-    ],
-  },
+  }
 ];
 
 export default () => {

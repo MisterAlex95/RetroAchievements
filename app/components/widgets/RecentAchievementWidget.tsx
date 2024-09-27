@@ -34,7 +34,7 @@ const RecentAchievementWidget: React.FC<RecentAchievementProps> = (props) => {
   }
 
   return (
-    <Widget {...{ containerStyle: { height: 125 }, ...props }}>
+    <Widget {...{ containerStyle: { height: 70, padding:10 }, ...props }}>
       <ScrollView scrollEnabled horizontal style={styles.container}>
         {recentAchievements &&
           recentAchievements.map((ra) => (
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 5,
-    marginHorizontal: 1,
+    marginHorizontal: 2,
   },
   container: {
     flex: 1,

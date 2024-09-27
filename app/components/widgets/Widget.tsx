@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderWidth: 1,
     width: '100%',
-    maxWidth: '100%',
     margin: 5,
   },
   title: {

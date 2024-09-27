@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Widget, { WidgetProps } from './Widget';
 import {
   useUserStore,
@@ -10,7 +10,9 @@ import { Colors } from '@/app/constants/Colors';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import GamePicture from '../common/GamePicture';
 
-export interface RecentGameProps extends WidgetProps {}
+export interface RecentGameProps extends WidgetProps {
+  index?: number;
+}
 
 const RecentGameWidget: React.FC<RecentGameProps> = (props) => {
   const {
@@ -33,16 +35,9 @@ const RecentGameWidget: React.FC<RecentGameProps> = (props) => {
     isFetchingUserProgressPerGame
   ) {
     return (
-      <View>
-        <CircularProgress
-          radius={25}
-          value={0}
-          valueSuffix={'%'}
-          progressValueColor="#ffff"
-          activeStrokeColor={Colors.dark.primary}
-          activeStrokeSecondaryColor={Colors.dark.secondary}
-        />
-      </View>
+      <Widget {...{ containerStyle: { height: 85 }, ...props }}>
+        <ActivityIndicator size="large" color={Colors.dark.primary} />
+      </Widget>
     );
   }
 
@@ -61,7 +56,7 @@ const RecentGameWidget: React.FC<RecentGameProps> = (props) => {
     }
   };
 
-  const game = userCompletionProgress.Results[0];
+  const game = userCompletionProgress.Results[props.index ?? 0];
 
   if (!game || !userProgressPerGame) return null;
 
