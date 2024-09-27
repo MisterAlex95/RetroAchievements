@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
   richPresence: {
     marginTop: 10,
     fontSize: 12,
+    textAlign: 'center',
     color: Colors.dark.basicText,
   },
 });

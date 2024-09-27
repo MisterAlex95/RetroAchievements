@@ -6,10 +6,10 @@ import {
   Image,
   ActivityIndicator,
 } from 'react-native';
-import Widget, { WidgetProps } from './Widget';
+import Widget from './Widget';
 import { useUserRecentAchievements } from '@/app/stores';
 import { Colors } from '@/app/constants/Colors';
-import CircularProgress from 'react-native-circular-progress-indicator';
+import { WidgetProps } from '@/app/types/widget.type';
 
 export interface RecentAchievementProps extends WidgetProps {}
 
