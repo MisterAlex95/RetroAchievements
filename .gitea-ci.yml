@@ -25,5 +25,5 @@ steps:
       - echo "Installation des dépendances..."
       - npm install --global expo eas-cli
       - npm install
-      - echo "Lancement du build iOS..."
+      - echo "Lancement du build iOS...."
       - eas build --platform ios --non-interactive
