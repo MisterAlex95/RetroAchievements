@@ -1,0 +1,29 @@
+image: node:18
+
+pipelines:
+  default:
+    - build-android
+    - build-ios
+
+steps:
+  - name: build-android
+    image: node:18
+    environment:
+      EAS_TOKEN: "$EAS_TOKEN"
+    commands:
+      - echo "Installation des dépendances..."
+      - npm install --global expo eas-cli
+      - npm install
+      - echo "Lancement du build Android..."
+      - eas build --platform android --non-interactive
+
+  - name: build-ios
+    image: node:18
+    environment:
+      EAS_TOKEN: "$EAS_TOKEN"
+    commands:
+      - echo "Installation des dépendances..."
+      - npm install --global expo eas-cli
+      - npm install
+      - echo "Lancement du build iOS..."
+      - eas build --platform ios --non-interactive
